@@ -1,0 +1,85 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0-android</TargetFramework>
+    <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
+    <OutputType>Exe</OutputType>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationId>app.SMAPIStardew</ApplicationId>
+    <ApplicationVersion>1</ApplicationVersion>
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <AssemblyName>SMAPIStardewValley</AssemblyName>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <RunAOTCompilation>False</RunAOTCompilation>
+    <PublishTrimmed>False</PublishTrimmed>
+    <Optimize>False</Optimize>
+    <AndroidPackageFormat>apk</AndroidPackageFormat>
+    <DebugSymbols>True</DebugSymbols>
+    <IsTrimmable>False</IsTrimmable>
+    <AndroidUseAapt2>True</AndroidUseAapt2>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <IsTrimmable>False</IsTrimmable>
+    <Optimize>False</Optimize>
+    <AndroidUseAapt2>True</AndroidUseAapt2>
+  </PropertyGroup>
+  <ItemGroup>
+    <AndroidJavaSource Remove="0Harmony\**" />
+    <AndroidLibrary Remove="0Harmony\**" />
+    <AndroidNativeLibrary Remove="0Harmony\**" />
+    <Compile Remove="0Harmony\**" />
+    <EmbeddedResource Remove="0Harmony\**" />
+    <JavaSourceJar Remove="0Harmony\**" />
+    <None Remove="0Harmony\**" />
+    <ProguardConfiguration Remove="0Harmony\**" />
+    <TransformFile Remove="0Harmony\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="AssemblyStoreAssembly.cs" />
+    <Compile Remove="DoPack.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Lib\arm64-v8a\liblwjgl_lz4.so" />
+    <None Remove="Resources\Drawable\ic_launcher.png" />
+    <None Remove="Resources\layout\activity_main.xml" />
+    <None Remove="Resources\mipmap\ic_launcher.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="K4os.Compression.LZ4" Version="1.3.8" />
+    <PackageReference Include="Krafs.Publicizer" Version="2.2.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Mono.Cecil" Version="0.11.5" />
+    <PackageReference Include="SharpZipLib.NETStandard" Version="1.0.7" />
+    <PackageReference Include="SkiaSharp" Version="2.88.9" />
+    <PackageReference Include="Xamarin.AndroidX.Core" Version="1.15.0.1" />
+    <PackageReference Include="Xamarin.AndroidX.DocumentFile" Version="1.0.1.30" />
+  </ItemGroup>
+
+
+	<ItemGroup>
+		<Publicize Include="StardewModdingAPI" IncludeVirtualMembers="false" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Publicize Include="StardewValley" IncludeVirtualMembers="false" />
+	</ItemGroup>
+
+	<ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>..\..\..\下载\melon_data\MelonLoader\net8\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>..\..\..\BaiduNetdiskDownload\decompress-assemblies\decompress-assemblies\uncompressed-Stardew Valley_v1.6.14.2\Monogame\bin\Release\netcoreapp8.0\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="StardewModdingAPI">
+      <HintPath>..\..\..\下载\SMAPI-develop (5)\SMAPI-develop\src\SMAPI\bin\Release\StardewModdingAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="StardewValley">
+      <HintPath>..\..\..\BaiduNetdiskDownload\decompress-assemblies\decompress-assemblies\uncompressed-Stardew Valley_v1.6.14.3\StardewValley.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

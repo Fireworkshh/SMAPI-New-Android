@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:gravity="center"
+    android:background="#f2f2f2">
+
+	<TextView
+        android:id="@+id/descriptionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="16sp"
+        android:textColor="#777777"
+        android:gravity="center"/>
+	<TextView
+        android:id="@+id/appTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="24sp"
+        android:textColor="#333333"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"/>
+
+	
+	<TextView
+        android:id="@+id/statusText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="18sp"
+        android:textColor="#333333"
+        android:gravity="center"
+        android:layout_marginBottom="32dp"/>
+
+	<TextView
+    android:id="@+id/infoText"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:layout_centerHorizontal="true"
+    android:textSize="14sp"
+    android:visibility="gone" /> 
+
+	<ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:indeterminate="false"
+        android:max="100"
+        android:progress="0"
+        android:layout_marginBottom="32dp"
+     android:visibility="visible"/>
+
+
+	
+
+	
+	<Button
+        android:id="@+id/installButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="开始安装"
+        android:textColor="#FFFFFF"
+        android:background="#4CAF50"
+        android:layout_marginTop="20dp"
+        android:visibility="visible"/>
+
+    	<Button
+        android:id="@+id/launchButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="启动游戏"
+        android:textColor="#FFFFFF"
+        android:background="#4CAF50"
+        android:layout_marginTop="20dp"
+        android:visibility="visible"/>
+
+</LinearLayout>
