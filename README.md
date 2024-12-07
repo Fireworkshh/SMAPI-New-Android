@@ -6,10 +6,10 @@ SMAPI Android Loader ÊÇÒ»¸öÓÃÓÚÔÚ Android Éè±¸ÉÏ¼ÓÔØºÍ¹ÜÀí Stardew Valley Mods µ
 
 ## ¹¦ÄÜ
 
-- Ö§³Ö Stardew Valley µÄ Android °æ±¾µÄ Mods ¼ÓÔØ ¡Ì
-- Ìá¹©·½±ãµÄÓÃ»§½çÃæÀ´¹ÜÀíºÍÅäÖÃ Mods  x
-- Óë PC °æ SMAPI ¼æÈİ    o
-- ¼òµ¥Ò×ÓÃµÄ°²×°ºÍÉèÖÃ²½Öè  x
+- Ö§³Ö Stardew Valley µÄ Android °æ±¾µÄ Mods ¼ÓÔØ 
+- Ìá¹©·½±ãµÄÓÃ»§½çÃæÀ´¹ÜÀíºÍÅäÖÃ Mods  
+- Óë PC °æ SMAPI ¼æÈİ    
+- ¼òµ¥Ò×ÓÃµÄ°²×°ºÍÉèÖÃ²½Öè  
 
 ## °²×°
 
@@ -60,10 +60,10 @@ SMAPI Android Loader is a tool to load and manage Stardew Valley Mods on Android
 
 ## Features
 
-- Support for Mods loading on the Android version of Stardew Valley ¡Ì
-- Convenient user interface for managing and configuring Mods x
-- Compatibility with the PC version of SMAPI o
-- Easy installation and setup steps x
+- Support for Mods loading on the Android version of Stardew Valley 
+- Convenient user interface for managing and configuring Mods 
+- Compatibility with the PC version of SMAPI 
+- Easy installation and setup steps 
 
 ## Installation
 
