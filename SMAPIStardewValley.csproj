@@ -82,5 +82,8 @@
     <Reference Include="StardewValley">
       <HintPath>..\..\..\BaiduNetdiskDownload\decompress-assemblies\decompress-assemblies\uncompressed-Stardew Valley_v1.6.14.3\StardewValley.dll</HintPath>
     </Reference>
+    <Reference Include="xTile">
+      <HintPath>..\..\..\Stardew Assemblies\Stardew Assemblies\xTile.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

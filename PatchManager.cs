@@ -14,7 +14,8 @@ namespace StardewModdingAPI
         {
             try
             {
-             
+                ApplyTypeDefinitionPatches();
+                
                 ApplyPatch();
                 ApplyResetLocalStatePatch();
                 ApplyLocationsFieldPatch();
@@ -43,13 +44,13 @@ namespace StardewModdingAPI
                     original: AccessTools.Method(typeof(Monster), "findPlayer", new Type[] { }),
                     postfix: new HarmonyMethod(typeof(PatchManager), nameof(Monster_findPlayer_Postfix))
                 );
-            }
+        }
             catch (Exception ex)
-            {
+        {
                 //    Utility.Monitor.LogOnce($"Harmony patch \"{nameof(HarmonyPatch_OptimizeMonsterCode)}\" failed to apply. Monsters might slow the game down or cause errors. Full error message: \n{ex.ToString()}", LogLevel.Error);
             }
         }
-
+        
 
  
         private static void ApplyResetLocalStatePatch()
@@ -84,10 +85,10 @@ namespace StardewModdingAPI
                 {
                     __result = Game1.player; //return the current player
                     return false; //skip the original method
-                }
+    }
                 else
                     return true; //call the original method
-            }
+}
             catch (Exception ex)
             {
                 //  Utility.Monitor.LogOnce($"Harmony patch \"{nameof(Monster_findPlayer_Prefix)}\" has encountered an error. Monsters might cause the game to run slower in single-player mode. Full error message: \n{ex.ToString()}", LogLevel.Error);
