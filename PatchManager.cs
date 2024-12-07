@@ -14,7 +14,7 @@ namespace StardewModdingAPI
         {
             try
             {
-                ApplyTypeDefinitionPatches();
+                //ApplyTypeDefinitionPatches();
                 
                 ApplyPatch();
                 ApplyResetLocalStatePatch();
