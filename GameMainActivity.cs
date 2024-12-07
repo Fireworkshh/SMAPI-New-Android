@@ -48,9 +48,9 @@ namespace StardewModdingAPI
                 AppDomain.CurrentDomain.AssemblyResolve += AssemblyResolve.HandleAssemblyResolve;
                 PatchManager.ApplyAllPatches();
 
-            HarmonyPatch_OptimizeMonsterCode.HarmonyPatch();
+          
             OnCreatePartTwoPatches();
-   
+            HarmonyPatch_OptimizeMonsterCode.HarmonyPatch();
 
             Console.WriteLine("GameMainActivity OnCreate complete.");
                 base.OnCreate(bundle);

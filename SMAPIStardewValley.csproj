@@ -14,7 +14,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <RunAOTCompilation>False</RunAOTCompilation>
     <PublishTrimmed>False</PublishTrimmed>
-    <Optimize>False</Optimize>
+    <Optimize>True</Optimize>
     <AndroidPackageFormat>apk</AndroidPackageFormat>
     <DebugSymbols>True</DebugSymbols>
     <IsTrimmable>True</IsTrimmable>
@@ -22,7 +22,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <IsTrimmable>True</IsTrimmable>
-    <Optimize>False</Optimize>
+    <Optimize>True</Optimize>
     <AndroidUseAapt2>True</AndroidUseAapt2>
   </PropertyGroup>
   <ItemGroup>

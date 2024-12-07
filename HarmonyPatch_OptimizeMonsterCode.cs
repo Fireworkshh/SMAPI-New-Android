@@ -17,8 +17,11 @@ namespace SMAPIStardewValley
             // 获取上一级目录
             string parentDir = Path.GetDirectoryName(externalFilesDir);
 
-            // 遍历 Mods 文件夹寻找 FarmTypeManager.dll
             string modsDir = Path.Combine(parentDir, "Mods");
+            if (!Directory.Exists(modsDir))
+            {
+                Directory.CreateDirectory(modsDir);
+            }
             var dllFiles = Directory.GetFiles(modsDir, "FarmTypeManager.dll", SearchOption.AllDirectories);
 
             foreach (var modDllPath in dllFiles)

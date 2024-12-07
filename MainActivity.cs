@@ -46,7 +46,7 @@ namespace SMAPI_Installation
             SetProgressBarVisibility(false);
             infoText.Visibility = ViewStates.Visible;
             string text = "1. 请在谷歌下载游戏然后点击安装，安装后启动即可。\n" +
-                       "2. 请在设置中关闭系统优化，否则可能无法提取安装包。\n" +
+                       "2. 请在设置打开系统优化，不要关闭系统优化，否则可能无法提取安装包。\n" +
                        "3. 模组放在/storage/emulated/0/Android/data/app.SMAPIStardew/Mods。\n" +
                        "4. 有任何问题请加群 985754557 询问。\n" +
                        "5. 项目地址已经开源 https://github.com/Fireworkshh/SMAPI-New-Android。\n" +
