@@ -14,7 +14,8 @@ using Android.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Drawing;
 using Microsoft.Xna.Framework;
-using Color = Microsoft.Xna.Framework.Color; // For AlertDialog
+using Color = Microsoft.Xna.Framework.Color;
+using SMAPIStardewValley; // For AlertDialog
 
 namespace StardewModdingAPI
 {
@@ -47,7 +48,7 @@ namespace StardewModdingAPI
                 AppDomain.CurrentDomain.AssemblyResolve += AssemblyResolve.HandleAssemblyResolve;
                 PatchManager.ApplyAllPatches();
 
-            Path();
+            HarmonyPatch_OptimizeMonsterCode.HarmonyPatch();
             OnCreatePartTwoPatches();
    
 
@@ -57,11 +58,7 @@ namespace StardewModdingAPI
 
     
         }
-        private void SetupCommandConsole()
-        {
-            // 获取 MonoGame 的 SpriteBatch 和字体对象
-        
-        }
+     
 
         public static void OnCreatePartTwoPatches()
         {
@@ -79,8 +76,7 @@ namespace StardewModdingAPI
 
           
 
-                // 让控制台可见
-                
+             
                 MobileDisplay.SetupDisplaySettings();
                 mainActivity.SetPaddingForMenus();
                 Program.Main();
@@ -113,44 +109,7 @@ namespace StardewModdingAPI
             }
         }
 
-        public  void Path()
-        {
-            Harmony harmony = new Harmony("com.example.patch");
-
-           
-            Assembly externalAssembly = Assembly.Load("FarmTypeManager"); // 加载外部程序集
-            Type harmonyPatchType = externalAssembly.GetType("FarmTypeManager.ModEntry+HarmonyPatch_OptimizeMonsterCode");
-
-            if (harmonyPatchType != null)
-            {
-                // 获取 ApplyPatch 方法
-                MethodInfo applyPatchMethod = harmonyPatchType.GetMethod("ApplyPatch");
-
-                if (applyPatchMethod != null)
-                {
-                    // 创建并应用 Prefix 补丁
-                    harmony.Patch(
-                        original: applyPatchMethod,
-                        prefix: new HarmonyMethod(typeof(GameMainActivity), nameof(HarmonyPrefixForApplyPatch))
-                    );
-
-                    Console.WriteLine("已阻止外部程序集 HarmonyPatch_OptimizeMonsterCode.ApplyPatch 方法的执行。");
-                }
-                else
-                {
-                    Console.WriteLine("未找到 ApplyPatch 方法！");
-                }
-            }
-            else
-            {
-                Console.WriteLine("未找到 HarmonyPatch_OptimizeMonsterCode 类！");
-            }
-        }
-        public static bool HarmonyPrefixForApplyPatch()
-        {
-            Console.WriteLine("已阻止 Harmony 补丁 'HarmonyPatch_OptimizeMonsterCode.ApplyPatch' 的执行");
-            return false; // 返回 false 来阻止原方法执行
-        }
+        
 
         // 权限请求结果回调
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
