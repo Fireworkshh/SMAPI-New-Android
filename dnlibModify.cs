@@ -1,11 +1,14 @@
-﻿using Mono.Cecil;
+﻿using dnlib.DotNet;
+using dnlib.DotNet.Emit;
+using Mono.Cecil;
 using StardewValley;
+using StardewValley.BellsAndWhistles;
 using System;
 using System.IO;
 using System.Linq;
 
 
-public class TargetFramework
+public class dnlibModify
 {
     public static void TargetFrameworkPatch()
     {
@@ -15,42 +18,42 @@ public class TargetFramework
 
      
         var assemblyResolver = new DefaultAssemblyResolver();
-        assemblyResolver.AddSearchDirectory(rootDirectory); // 添加程序集目录，确保加载相关的 DLL 文件
+        assemblyResolver.AddSearchDirectory(rootDirectory); 
 
-        // 遍历文件夹及所有子文件夹，查找所有的 .dll 文件
+    
         var assemblyFiles = Directory.GetFiles(directoryPath, "*.dll", SearchOption.AllDirectories);
 
         foreach (var assemblyPath in assemblyFiles)
         {
             try
             {
-                // 加载程序集并传递给解析器
+          
                 var assemblyDefinition = AssemblyDefinition.ReadAssembly(assemblyPath, new ReaderParameters { AssemblyResolver = assemblyResolver });
 
-                // 检查目标框架是否需要更新
+           
                 if (IsTargetFrameworkUpdated(assemblyDefinition, newTargetFramework))
                 {
-                  //  Console.WriteLine($"程序集 '{assemblyPath}' 已是目标框架 '{newTargetFramework}'。");
-                    continue; // 如果目标框架已经是期望的版本，跳过
+             
+                    continue; 
                 }
                 if (IsStardewValleyAssembly(assemblyDefinition))
                 {
-                //    Console.WriteLine($"程序集 '{assemblyPath}' 是 StardewValley 程序集。");
-                    continue; // 跳过 StardewValley 程序集的修改
+              
+                    continue; 
                 }
 
-                // 修改 Stardew Valley 的引用
+          
                 ModifyStardewReference(assemblyDefinition);
 
-                // 更新目标框架和引用
+           
                 UpdateTargetFramework(assemblyDefinition, newTargetFramework);
                 UpdateReferences(assemblyDefinition);
 
-                // 保存修改后的程序集
+            
                 string modifiedAssemblyPath = Path.Combine(Path.GetDirectoryName(assemblyPath), "Modified_" + Path.GetFileName(assemblyPath));
                 assemblyDefinition.Write(modifiedAssemblyPath);
 
-            //    Console.WriteLine($"程序集 '{assemblyPath}' 已成功修改并保存为 '{modifiedAssemblyPath}'");
+          
 
                 // 删除原文件并覆盖
                 if (File.Exists(assemblyPath))
@@ -70,7 +73,7 @@ public class TargetFramework
         }
     }
 
-    // 检查目标框架是否已经是指定的版本，避免重复修改
+   
     static bool IsTargetFrameworkUpdated(AssemblyDefinition assemblyDefinition, string targetFramework)
     {
         var metadata = assemblyDefinition.CustomAttributes.FirstOrDefault(a => a.AttributeType.Name == "TargetFrameworkAttribute");
@@ -82,27 +85,27 @@ public class TargetFramework
         return false;
     }
 
-    // 更新程序集的目标框架
+   
     static void UpdateTargetFramework(AssemblyDefinition assemblyDefinition, string targetFramework)
     {
         var metadata = assemblyDefinition.CustomAttributes.FirstOrDefault(a => a.AttributeType.Name == "TargetFrameworkAttribute");
         if (metadata != null)
         {
-            // 如果目标框架已经是我们要设置的版本，则跳过
+           
             var currentFramework = metadata.ConstructorArguments[0].Value as string;
             if (currentFramework == targetFramework)
             {
               
                 return;
             }
-            // 更新现有的 TargetFramework 属性
+          
             metadata.ConstructorArguments[0] = new CustomAttributeArgument(assemblyDefinition.MainModule.TypeSystem.String, targetFramework);
-      //      Console.WriteLine($"更新目标框架为 '{targetFramework}'");
+    
         }
         else
         {
-            // 如果没有找到目标框架属性，则添加新的
-            var targetFrameworkAttribute = new CustomAttribute(
+     
+            var targetFrameworkAttribute = new Mono.Cecil.CustomAttribute(
                 assemblyDefinition.MainModule.ImportReference(
                     typeof(System.Runtime.Versioning.TargetFrameworkAttribute).GetConstructor(new[] { typeof(string) })
                 )
@@ -113,53 +116,121 @@ public class TargetFramework
         }
     }
 
-    // 更新程序集引用的版本
-    // 更新程序集引用的版本
+ 
     static void UpdateReferences(AssemblyDefinition assemblyDefinition)
     {
-        // 遍历所有程序集引用并更新它们的版本
         foreach (var reference in assemblyDefinition.MainModule.AssemblyReferences)
         {
-            // 如果程序集名称以 System 或 Microsoft 开头，假设它们是 .NET 运行时相关的引用
+         
             if (reference.Name.StartsWith("System") || reference.Name.StartsWith("Microsoft"))
             {
-                // 检查引用版本是否已经是 8.0.0.0
+              
                 if (reference.Version != new Version(8, 0, 0, 0))
                 {
                     reference.Version = new Version(8, 0, 0, 0);
-                    //Console.WriteLine($"更新 {reference.Name} 为版本 8.0.0.0");
+               
                 }
             }
             else if (reference.Name.Equals("0Harmony", StringComparison.OrdinalIgnoreCase))
             {
-                // 修改引用名称为 Harmony
+             
                 reference.Name = "Harmony";
-             //   Console.WriteLine("将引用 '0Harmony' 修改为 'Harmony'");
+        
             }
             else
             {
-                // 如果是其他引用，可以在这里添加更多逻辑进行更新
-           //     Console.WriteLine($"引用 {reference.Name} 没有被更新。");
+           
             }
         }
     }
-    
+    public static void ModifyOptionsElementDrawMethod(string assemblyPath)
+    {
+        try
+        {
+            // 加载程序集
+            var module = ModuleDefMD.Load(assemblyPath);
+
+         
+            var optionsElementType = module.Types.FirstOrDefault(t => t.Name == "OptionsElement");
+            if (optionsElementType == null)
+            {
+                Console.WriteLine("OptionsElement class not found!");
+                return;
+            }
+
+          
+            var drawMethod = optionsElementType.Methods.FirstOrDefault(m => m.Name == "draw");
+            if (drawMethod == null)
+            {
+                Console.WriteLine("draw method not found!");
+                return;
+            }
+
+            
+            //666ModifyDrawMethodBody(drawMethod);
+
+            // 保存修改后的程序集
+            module.Write("ModifiedAssembly.dll");
+            Console.WriteLine("Method successfully modified and saved!");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error modifying method: {ex.Message}");
+        }
+    }
+
+   /* private static void ModifyDrawMethodBody(MethodDef drawMethod)
+    {
+        // 获取 ILProcessor
+        var ilProcessor = drawMethod.Body.GetILProcessor();  // 获取IL处理器
+
+        // 清空原方法的指令
+        drawMethod.Body.Instructions.Clear();
+
+        // 获取方法所属的类型（即 OptionsElement）
+        var optionsElementType = drawMethod.DeclaringType;
+
+        // 插入自定义的逻辑：检查 whichOption 是否为 -1
+        ilProcessor.Append(OpCodes.Ldarg_0); // 载入 this（即 OptionsElement）
+        ilProcessor.Append(OpCodes.Ldfld, optionsElementType.Fields.First(f => f.Name == "whichOption"));  // 获取 whichOption 字段
+        ilProcessor.Append(OpCodes.Ldc_I4, -1);  // 比较值 -1
+        ilProcessor.Append(OpCodes.Beq_S, ilProcessor.Create(OpCodes.Nop));  // 如果 whichOption == -1，跳转到 Nop（表示跳过原来的逻辑）
+
+        // 添加自定义绘制逻辑
+        ilProcessor.Append(OpCodes.Ldarg_1); // b
+        ilProcessor.Append(OpCodes.Ldarg_2); // slotX
+        ilProcessor.Append(OpCodes.Ldarg_3); // slotY
+        ilProcessor.Append(OpCodes.Ldarg_0); // this
+        ilProcessor.Append(OpCodes.Ldfld, optionsElementType.Fields.First(f => f.Name == "label"));  // 获取 label 字段
+        ilProcessor.Append(OpCodes.Ldc_I4, 999); // 其他参数
+        ilProcessor.Append(OpCodes.Ldc_I4, -1);
+        ilProcessor.Append(OpCodes.Ldc_I4, 999);
+        ilProcessor.Append(OpCodes.Ldc_R4, 1f);
+        ilProcessor.Append(OpCodes.Ldc_R4, 0.1f);
+        ilProcessor.Append(OpCodes.Ldc_I4, 0);
+        ilProcessor.Append(OpCodes.Ldc_I4, -1);
+        ilProcessor.Append(OpCodes.Ldnull);
+        ilProcessor.Append(OpCodes.Call, typeof(SpriteText).GetMethod("drawString"));  // 调用 SpriteText.drawString
+
+        // 跳过原始方法的后续代码
+        ilProcessor.Append(OpCodes.Ret);  // 结束方法
+    }*/
     static bool IsStardewValleyAssembly(AssemblyDefinition assemblyDefinition)
     {
-        // 检查程序集名称是否为 StardewValley 或者程序集是否已经是正确的版本
+     
         return assemblyDefinition.Name.Name.Equals("StardewValley", StringComparison.OrdinalIgnoreCase);
     }
 
-    // 修改 Stardew Valley.dll 的引用为 StardewValley.dll
+
     static void ModifyStardewReference(AssemblyDefinition assemblyDefinition)
     {
-        // 查找并修改所有引用
+     
         foreach (var reference in assemblyDefinition.MainModule.AssemblyReferences)
         {
             if (reference.Name.Equals("Stardew\u0020Valley", StringComparison.OrdinalIgnoreCase))
             {
                 reference.Name = "StardewValley";
-               // Console.WriteLine($"将引用 'Stardew Valley' 修改为 'StardewValley'");
+            
             }
         }
     }

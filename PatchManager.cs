@@ -5,6 +5,10 @@ using System;
 using System.Reflection;
 using StardewValley.Monsters;
 using SMAPIStardewValley;
+using Microsoft.Xna.Framework.Graphics;
+using StardewValley.Menus;
+using StardewValley.BellsAndWhistles;
+using Microsoft.Xna.Framework;
 
 namespace StardewModdingAPI
 {
@@ -17,6 +21,7 @@ namespace StardewModdingAPI
               
                 
                 ApplyPatch();
+                ApplyOptionsElementDrawPatch();
                // ApplyResetLocalStatePatch();
                // ApplyLocationsFieldPatch();
 
@@ -72,13 +77,60 @@ namespace StardewModdingAPI
                 return true; //call the original method
             }
         }
+        public static void ApplyOptionsElementDrawPatch()
+        {
+            try
+            {
+                Harmony harmony = new Harmony("com.example.patch");
 
-        /// <summary>Attempts to avoid a bug where monsters occasionally crash the game due to a null "Monster.Player" during "Monster.behaviorAtGameTick".</summary>
-        /// <remarks>
-        /// I cannot yet naturally reproduce this bug, but it has been reported by several players.
-        /// atravita found that the null errors occurred in "!Player.isRafting" and fixed the issue by transpiling a null check into that code. If errors persist, consider that solution.
-        /// This postfix solution should address issues in other code that reference "Monster.Player" as well. Most of the game's code assumes it cannot be null.</remarks>
-        private static void Monster_findPlayer_Postfix(ref Farmer __result)
+                // 为了避免直接覆盖原始 draw 方法，我们使用 Harmony 来前置（Prefix）补丁。
+                harmony.Patch(
+                    original: AccessTools.Method(typeof(OptionsElement), "draw", new Type[] { typeof(SpriteBatch), typeof(int), typeof(int), typeof(IClickableMenu) }),
+                    prefix: new HarmonyMethod(typeof(PatchManager), nameof(OptionsElement_draw_Prefix))
+                );
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error applying OptionsElement draw patch: {ex.Message}");
+            }
+        }
+
+        private static bool OptionsElement_draw_Prefix(SpriteBatch b, int slotX, int slotY, IClickableMenu context)
+        {
+            // 首先，我们可以安全地从 `context` 强制转换为 `OptionsElement`，并检查是否为空
+            OptionsElement optionsElement = context as OptionsElement;
+
+         
+            try
+            {
+                // 在此处，我们通过直接访问 `this` 来操作 OptionsElement 实例
+                if (optionsElement.whichOption == -1)
+                {
+                    // 自定义的绘制逻辑
+                    SpriteText.drawString(b, optionsElement.label, slotX + optionsElement.bounds.X, slotY + optionsElement.bounds.Y, 999, -1, 999, 1f, 0.1f, false, -1, "", null, SpriteText.ScrollTextAlignment.Left);
+                    return false; // 返回 false 来跳过原始的 `draw` 方法
+                }
+
+                // 调用原始的绘制方法，但我们可以修改绘制的一些参数
+                Utility.drawTextWithShadow(b, optionsElement.label, Game1.dialogueFont, new Vector2(slotX + optionsElement.bounds.X, slotY + optionsElement.bounds.Y),
+                    optionsElement.greyedOut ? Game1.textColor * 0.33f : Game1.textColor, 1f, 0.1f, -1, -1, 1f, 3);
+
+                // 返回 true 以允许继续执行原始的 `draw` 方法
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in OptionsElement_draw_Prefix: {ex.Message}");
+                return true; // 如果发生错误，继续执行原始的 `draw` 方法
+            }
+        }
+    
+    /// <summary>Attempts to avoid a bug where monsters occasionally crash the game due to a null "Monster.Player" during "Monster.behaviorAtGameTick".</summary>
+    /// <remarks>
+    /// I cannot yet naturally reproduce this bug, but it has been reported by several players.
+    /// atravita found that the null errors occurred in "!Player.isRafting" and fixed the issue by transpiling a null check into that code. If errors persist, consider that solution.
+    /// This postfix solution should address issues in other code that reference "Monster.Player" as well. Most of the game's code assumes it cannot be null.</remarks>
+    private static void Monster_findPlayer_Postfix(ref Farmer __result)
         {
             try
             {
