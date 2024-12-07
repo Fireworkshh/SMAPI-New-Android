@@ -22,7 +22,7 @@ namespace Xamarin.Android.Tools.DecompressAssemblies
         {
             string text = prefix + filePath;
 
-            // 获取应用的私有存储路径
+        
             string privatePath = MainActivity.GetPrivateStoragePath() + "/smapi-internal";
 
             // Check if the directory exists, if not, create it
@@ -31,7 +31,7 @@ namespace Xamarin.Android.Tools.DecompressAssemblies
                 Directory.CreateDirectory(privatePath);
             }
 
-            text = Path.Combine(privatePath, filePath); // 创建目标路径
+            text = Path.Combine(privatePath, filePath); 
             bool result = true;
          
 
@@ -60,7 +60,7 @@ namespace Xamarin.Android.Tools.DecompressAssemblies
                             Directory.CreateDirectory(directoryName);
                         }
 
-                        // 解压并写入文件
+                       
                         using (FileStream fileStream = File.Open(text, FileMode.Create, FileAccess.Write))
                         {
                             fileStream.Write(array2, 0, num3);
@@ -68,7 +68,7 @@ namespace Xamarin.Android.Tools.DecompressAssemblies
                         }
                        
 
-                        // 在解压后删除不需要的程序集
+                     
                         if (ShouldDeleteAssembly(text))
                         {
                             File.Delete(text);
@@ -89,20 +89,20 @@ namespace Xamarin.Android.Tools.DecompressAssemblies
 
         private static bool ShouldDeleteAssembly(string filePath)
         {
-            // 获取文件名并转换为小写进行匹配
+           
             string fileName = Path.GetFileName(filePath).ToLower();
 
-            // 如果是 MonoGame.Framework.dll，则不删除
+            
             if (fileName.Equals("monogame.framework.dll"))
             {
                 return false;
             }
 
-            // 检查文件名是否以指定的前缀开头，表示不需要的程序集
-            return  // 删除 System.* 程序集
-                  fileName.StartsWith("xamarin.")  // 删除 Xamarin.* 程序集
-                || fileName.StartsWith("mono.")     // 删除 Mono.* 程序集
-                || fileName.StartsWith("microsoft."); // 删除 Microsoft.* 程序集
+         
+            return  
+                  fileName.StartsWith("xamarin.")
+                || fileName.StartsWith("mono.")    
+                || fileName.StartsWith("microsoft."); 
         }
 
 

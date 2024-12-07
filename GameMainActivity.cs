@@ -76,37 +76,37 @@ namespace StardewModdingAPI
             {
                 mainActivity.IsDoingStorageMigration = true;
 
-                // 创建AlertDialog
+         
                 AlertDialog.Builder builder = new AlertDialog.Builder(mainActivity);
                 builder.SetTitle("SMAPI4.1.8 Android");
 
-                // 创建一个TextView来显示日志内容
+            
                 TextView logTextView = new TextView(mainActivity)
                 {
                     LayoutParameters = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MatchParent, LinearLayout.LayoutParams.WrapContent),
                     TextSize = 14f,
                 };
 
-                // 定义 TextView 的颜色 (例如，黄色)
-                Android.Graphics.Color androidColor = Android.Graphics.Color.Yellow; // 使用 Android.Graphics.Color.Yellow，或者选择任何你想要的颜色
+           
+                Android.Graphics.Color androidColor = Android.Graphics.Color.Yellow; 
                 int[][] states = new int[][] {
             new int[] { Android.Resource.Attribute.StateEnabled },  // 默认状态
         };
-                int[] colors = new int[] { Android.Graphics.Color.Yellow };  // 直接使用 Color.Yellow，而不需要调用 ToArgb()
+                int[] colors = new int[] { Android.Graphics.Color.Yellow }; 
 
-                // 创建 ColorStateList
+           
                 ColorStateList colorStateList = new ColorStateList(states, colors);
 
-                // 设置 TextView 的颜色
+        
                 logTextView.SetTextColor(colorStateList);
 
-                // 创建一个 ScrollView 来包含 TextView，使其能够滚动
+             
                 ScrollView scrollView = new ScrollView(mainActivity);
                 scrollView.LayoutParameters = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MatchParent, LinearLayout.LayoutParams.MatchParent);
-                scrollView.AddView(logTextView);  // 将 TextView 添加到 ScrollView 中
+                scrollView.AddView(logTextView);  
 
-                // 将 ScrollView 设置为 AlertDialog 的视图
+              
                 builder.SetView(scrollView);
 
                 // 设置按钮
@@ -122,53 +122,53 @@ namespace StardewModdingAPI
                     mainActivity.IsDoingStorageMigration = false;
                 });
 
-                // 禁止对话框关闭
+   
                 builder.SetCancelable(false);
 
-                // 创建并显示AlertDialog
+          
                 AlertDialog alertDialog = builder.Create();
                 alertDialog.Show();
 
-                // 设置 AlertDialog 为全屏
+           
                 Window window = alertDialog.Window;
                 if (window != null)
                 {
-                    // 获取屏幕的宽度和高度
+              
                     DisplayMetrics displayMetrics = new DisplayMetrics();
                     mainActivity.WindowManager.DefaultDisplay.GetMetrics(displayMetrics);
 
-                    // 设置 AlertDialog 的宽度和高度为屏幕的宽度和高度
+               
                     window.SetLayout(displayMetrics.WidthPixels, displayMetrics.HeightPixels);
                 }
 
                
-                    // 读取applog.txt文件内容
+                  
                     string logFilePath = System.IO.Path.Combine(GameMainActivity.externalFilesDir, "applog.txt");
 
-                    // 检查文件是否存在
+                
                     if (File.Exists(logFilePath))
                     {
-                        string[] logLines = File.ReadAllLines(logFilePath);  // 读取所有行
+                        string[] logLines = File.ReadAllLines(logFilePath); 
 
-                        // 将读取的内容拼接成单个字符串
+                
                         StringBuilder logText = new StringBuilder();
                         foreach (var line in logLines)
                         {
                             logText.AppendLine(line);
                         }
 
-                        // 在UI线程更新TextView的内容
+                    
                         mainActivity.RunOnUiThread(() =>
                         {
-                            logTextView.Text = logText.ToString(); // 更新TextView内容
+                            logTextView.Text = logText.ToString(); 
 
-                            // 滚动到最底部
+                      
                             scrollView.FullScroll(FocusSearchDirection.Down);
                         });
                     }
                     else
                     {
-                        // 如果日志文件不存在，显示提示信息
+              
                         mainActivity.RunOnUiThread(() =>
                         {
                             logTextView.Text = "日志文件不存在。";
@@ -233,7 +233,7 @@ namespace StardewModdingAPI
 
         
 
-        // 权限请求结果回调
+  
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
         {
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -242,13 +242,13 @@ namespace StardewModdingAPI
             {
                 if (grantResults.Length > 0 && grantResults.All(result => result == Permission.Granted))
                 {
-                    // 所有权限已授予，继续操作
+                    
                     Toast.MakeText(this, "所有权限已授予，继续操作", ToastLength.Short).Show();
                 }
                 else
                 {
-                    // 一些权限被拒绝
-                    Toast.MakeText(this, "需要完整存储权限和应用查询权限才能继续", ToastLength.Long).Show();
+        
+                    Toast.MakeText(this, "需要完整存储权限", ToastLength.Long).Show();
                 }
             }
         }

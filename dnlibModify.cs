@@ -55,14 +55,14 @@ public class dnlibModify
 
           
 
-                // 删除原文件并覆盖
+                
                 if (File.Exists(assemblyPath))
                 {
                     File.Delete(assemblyPath);
              
                 }
 
-                // 将修改后的程序集重命名为原文件名
+               
                 File.Move(modifiedAssemblyPath, assemblyPath);
              
             }
