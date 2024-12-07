@@ -18,7 +18,11 @@ using Microsoft.Xna.Framework;
 using SMAPIStardewValley;
 using System.Text;
 using Android.Content.Res;
-using Android.Util; // For AlertDialog
+using Android.Util;
+using System.Reflection.Emit;
+using StardewValley.Locations;
+using StardewValley.Buildings;
+
 
 namespace StardewModdingAPI
 {
@@ -54,7 +58,7 @@ namespace StardewModdingAPI
           
             OnCreatePartTwoPatches();
             ApplyPatch();
-            HarmonyPatch_OptimizeMonsterCode.HarmonyPatch();
+            HarmonyPatch_StardewValley.HarmonyPatch();
 
             Console.WriteLine("GameMainActivity OnCreate complete.");
                 base.OnCreate(bundle);
@@ -62,6 +66,9 @@ namespace StardewModdingAPI
 
     
         }
+     
+
+
 
         public static void ApplyPatch()
         {
@@ -181,8 +188,36 @@ namespace StardewModdingAPI
         }
 
 
+  
+       
+        private static bool InteractWithPiggyBank(Farmer who, StardewValley.Object piggy, bool justCheckingForActivity)
+        {
+            if (who == null)
+            {
+                return false;
+            }
+            if (who.ActiveObject != null)
+            {
+                return false;
+            }
+            if (!justCheckingForActivity)
+            {
+                if (who.Money > 0)
+                {
+                    who.Money--;
+                    who.currentLocation.playSound("money");
+                    piggy.shakeTimer = 100;
+                }
+                else
+                {
+                    who.currentLocation.playSound("cancel");
+                }
+            }
+            return true;
+        }
+    
 
-        public static void OnCreatePartTwoPatches()
+    public static void OnCreatePartTwoPatches()
         {
             Harmony harmony = new Harmony("com.example.patch");
             MethodInfo original = AccessTools.Method(typeof(MainActivity), "OnCreatePartTwo");
@@ -190,7 +225,7 @@ namespace StardewModdingAPI
             harmony.Patch(original, prefix);
             Console.WriteLine("Prefix applied!");
         }
-
+  
         public static bool OnCreatePartTwo_Prefix()
         {
             try

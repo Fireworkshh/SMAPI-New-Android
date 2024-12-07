@@ -101,7 +101,8 @@ namespace Xamarin.Android.Tools.DecompressAssemblies
          
             return  
                   fileName.StartsWith("xamarin.")
-                || fileName.StartsWith("mono.")    
+                || fileName.StartsWith("mono.")
+                      || fileName.StartsWith("system.")
                 || fileName.StartsWith("microsoft."); 
         }
 

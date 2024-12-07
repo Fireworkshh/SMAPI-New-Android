@@ -27,65 +27,65 @@ namespace SMAPI_Installation
         private TextView descriptionText;
         private Button installButton;
         private Button launchButton; 
-        private TextView infoText; 
+        private TextView infoText;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            SetContentView(Resource.Layout.activity_main);  
+            SetContentView(Resource.Layout.activity_main);
 
             mainActivity = this;
-            infoText = FindViewById<TextView>(Resource.Id.infoText); 
-
+            infoText = FindViewById<TextView>(Resource.Id.infoText);
+          
             // 获取 UI 控件引用
             progressBar = FindViewById<ProgressBar>(Resource.Id.progressBar);
             statusText = FindViewById<TextView>(Resource.Id.statusText);
             descriptionText = FindViewById<TextView>(Resource.Id.descriptionText);
             installButton = FindViewById<Button>(Resource.Id.installButton);
-            launchButton = FindViewById<Button>(Resource.Id.launchButton); 
-            launchButton.Visibility = ViewStates.Invisible; 
+            launchButton = FindViewById<Button>(Resource.Id.launchButton);
+            launchButton.Visibility = ViewStates.Invisible;
             SetProgressBarVisibility(false);
             infoText.Visibility = ViewStates.Visible;
             string text = "1. 请在谷歌下载游戏然后点击安装，安装后启动即可。\n" +
-                       "2. 请在设置打开系统优化，不要关闭系统优化，否则可能无法提取安装包。\n" +
-                       "3. 模组放在/storage/emulated/0/Android/data/app.SMAPIStardew/Mods。\n" +
-                       "4. 有任何问题请加群 985754557 询问。\n" +
-                       "5. 项目地址已经开源 https://github.com/Fireworkshh/SMAPI-New-Android。\n" +
-                       "6. 哔哩哔哩 UP 主是猫离个喵哦。";
+                  
+                       "2. 模组放在/storage/emulated/0/Android/data/app.SMAPIStardew/Mods。\n" +
+                       "3. 有任何问题请加群 985754557 询问。\n" +
+                       "4. 项目地址已经开源 https://github.com/Fireworkshh/SMAPI-New-Android。\n" +
+                       "5. 有问题可以在哔哩哔哩联系。";
 
-           
+
             SpannableString spannableString = new SpannableString(text);
 
-         
+
             int start = text.IndexOf("有任何问题请加群 985754557 询问");
             int end = start + "有任何问题请加群 985754557 询问".Length;
             spannableString.SetSpan(new URLSpan("http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=4guX1RqKVQE7nawKcsnOZ477ntb2nrY3&authKey=oTUbE%2BI4fVMghqGJ4rYwAjTzoJ4d2fI8ixDcsNF6S4NYOTkJ63iBrRGhZaB2XAkH&noverify=0&group_code=781588105"), start, end, SpanTypes.ExclusiveExclusive);
 
-            start = text.IndexOf("哔哩哔哩 UP 主是猫离个喵哦");
-            end = start + "哔哩哔哩 UP 主是猫离个喵哦".Length;
+            start = text.IndexOf("有问题可以在哔哩哔哩联系");
+            end = start + "有问题可以在哔哩哔哩联系".Length;
             spannableString.SetSpan(new URLSpan("https://b23.tv/zVL6x1g"), start, end, SpanTypes.ExclusiveExclusive);
 
             infoText.TextFormatted = spannableString;
 
-       
+
             infoText.MovementMethod = LinkMovementMethod.Instance;
 
 
-        
+
             if (IsSMAPIInstalled())
             {
                 installButton.Visibility = ViewStates.Gone;
 
                 statusText.Visibility = ViewStates.Visible;
 
-                launchButton.Visibility = ViewStates.Visible; 
-                ShowLaunchButton(); 
+                launchButton.Visibility = ViewStates.Visible;
+                ShowLaunchButton();
 
 
             }
             else
             {
                 statusText.Visibility = ViewStates.Visible;
-               
+
                 statusText.Text = "请安装SMAPI...";
                 installButton.Click += async (sender, e) =>
                 {
@@ -94,18 +94,77 @@ namespace SMAPI_Installation
 
 
                     StartInstallationProcess();
-                 
+
                 };
 
 
             }
+        }
 
 
-         
 
 
-            // 请求存储权限
-            RequestPermissions(new string[] { Android.Manifest.Permission.WriteExternalStorage }, RequestCodeStoragePermission);
+
+
+  
+
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+
+            if (requestCode == RequestCodeStoragePermission)
+            {
+                if (Build.VERSION.SdkInt >= BuildVersionCodes.R)
+                {
+                    if (CheckSelfPermission(Android.Manifest.Permission.ManageExternalStorage) == Permission.Granted)
+                    {
+                        // 权限授予，继续操作
+                        RequestStoragePermissions();
+                    }
+                    else
+                    {
+                        // 权限未授予，提醒用户
+                        Toast.MakeText(this, "存储权限未授予，请手动授予权限", ToastLength.Long).Show();
+                    }
+                }
+                else
+                {
+                    // 处理其他权限的结果
+                    if (CheckSelfPermission(Android.Manifest.Permission.WriteExternalStorage) == Permission.Granted)
+                    {
+                        RequestStoragePermissions();
+                    }
+                    else
+                    {
+                        Toast.MakeText(this, "存储权限未授予", ToastLength.Long).Show();
+                    }
+                }
+            }
+        }
+
+        private void RequestStoragePermissions()
+        {
+            // Handle additional functionality when storage permission is granted
+            Toast.MakeText(this, "存储权限已授予，继续操作", ToastLength.Short).Show();
+        }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        {
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+
+            if (requestCode == RequestCodeStoragePermission)
+            {
+                if (grantResults.Length > 0 && grantResults.All(result => result == Permission.Granted))
+                {
+                    // All permissions granted, continue
+                    Toast.MakeText(this, "所有权限已授予，继续操作", ToastLength.Short).Show();
+                }
+                else
+                {
+                    // Some permissions were denied
+                    ShowErrorDialog("权限请求失败", "需要完整存储权限和应用查询权限才能继续");
+                }
+            }
         }
         private  async void  StartInstallationProcess()
         {
@@ -168,24 +227,8 @@ namespace SMAPI_Installation
         }
 
 
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
-        {
-            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
-            if (requestCode == RequestCodeStoragePermission)
-            {
-                if (grantResults.Length > 0 && grantResults.All(result => result == Permission.Granted))
-                {
-                    // All permissions granted, operate normally
-                 //   Toast.MakeText(this, "所有权限已授予，继续操作", ToastLength.Short).Show();
-                }
-                else
-                {
-                    // Some permissions were denied
-                    Toast.MakeText(this, "需要完整存储权限和应用查询权限才能继续", ToastLength.Long).Show();
-                }
-            }
-        }
+
         private string GetApkPathByPackageName(string packageName)
         {
             try
@@ -203,8 +246,8 @@ namespace SMAPI_Installation
             }
             catch (PackageManager.NameNotFoundException ex)
             {
-                // 应用包名无效或应用未安装，处理异常并返回空字符串
-                Toast.MakeText(this, "应用未找到: " + ex.Message, ToastLength.Long).Show();
+                // 弹出错误对话框，应用未安装
+                ShowErrorDialog("应用未找到", "应用包名无效或应用未安装: " + ex.Message);
                 return string.Empty;
             }
         }
@@ -214,10 +257,7 @@ namespace SMAPI_Installation
             SetProgressBarVisibility(true);
             installButton.Visibility = ViewStates.Gone;
 
-           
             string apkPath = GetApkPathByPackageName(packageName);
-
-    
             string splitContentApkPath = GetSplitContentApkPath(packageName);
 
             if (!string.IsNullOrEmpty(apkPath) || !string.IsNullOrEmpty(splitContentApkPath))
@@ -244,72 +284,63 @@ namespace SMAPI_Installation
                         File.Copy(apkPath, destinationPath, true); // true 表示覆盖已存在文件
                     }
 
-
-
-
-                    //666   if (File.Exists(splitContentapk))
+                    // 提取 split_content.apk 文件
+                    if (File.Exists(splitContentApkPath))
                     {
-
-
                         string splitContentDestinationPath = Path.Combine(privatePath, "split_content.apk");
-
-                        if (File.Exists(splitContentApkPath))
-                        {
-                            File.Copy(splitContentApkPath, splitContentDestinationPath, true);
-                        }
-
-
-                        UpdateProgress(25, "正在安装解压APK...");
-
-                        // 提取 APK 内容
-                        UpdateProgress(50, "正在提取游戏内容...");
-                        await ExtractAssetsContentToPrivateStorage.ExtractAssetsContentAsync();
-
-                        string splitContentapks = Path.Combine(privatePath, "split_content.apk");
-
-                        if (!string.IsNullOrEmpty(splitContentapks))
-                        {
-
-                            await ExtractAssetsContentToPrivateStorage.ExtractapksAssetsContentAsync();
-                        }
-                        // 解压 APK 内部资源
-                        App.UncompressFromAPK(destinationPath, "assemblies/");
-
-                        // 解压其他资产
-                        UpdateProgress(75, "正在安装SMAPI...");
-                        Unpacker.UnpackAllFilesFromAssets(this, "smapi-internal.zip");
-
-                        // 移动建筑物文件
-                        MoveBuildings.MoveBuildingsFileToTargetDirectory(this);
-
-                        // 更新进度为 100% 完成安装
-                        UpdateProgress(100, "SMAPI安装完成！");
-
-                        RunOnUiThread(() =>
-                        {
-                            descriptionText.Text = "请启动游戏";
-                            // 显示安装完成消息
-                            if (IsSMAPIInstalled())
-                            {
-                                installButton.Visibility = ViewStates.Invisible;
-
-                                statusText.Visibility = ViewStates.Visible;
-
-                                launchButton.Visibility = ViewStates.Visible; // 默认隐藏启动按钮
-                                ShowLaunchButton();
-                            }
-                        });
+                        File.Copy(splitContentApkPath, splitContentDestinationPath, true);
                     }
+
+                    UpdateProgress(25, "正在安装解压APK...");
+
+                    // 提取 APK 内容
+                    UpdateProgress(50, "正在提取游戏内容...");
+                  
+
+                    string splitContentapks = Path.Combine(privatePath, "split_content.apk");
+
+                    if (!string.IsNullOrEmpty(splitContentapks))
+                    {
+                        await ExtractAssetsContentToPrivateStorage.ExtractApkAssetsContentAsync();
+                    }
+
+                    // 解压 APK 内部资源
+                    App.UncompressFromAPK(destinationPath, "assemblies/");
+
+                    // 解压其他资产
+                    UpdateProgress(75, "正在安装SMAPI...");
+                    Unpacker.UnpackAllFilesFromAssets(this, "smapi-internal.zip");
+                    Unpacker.UnpackAllFilesFromAssets(this, "dotnet.zip");
+
+                    // 移动建筑物文件
+                    MoveBuildings.MoveBuildingsFileToTargetDirectory(this);
+
+                    // 更新进度为 100% 完成安装
+                    UpdateProgress(100, "SMAPI安装完成！");
+
+                    RunOnUiThread(() =>
+                    {
+                        descriptionText.Text = "请启动游戏";
+                        // 显示安装完成消息
+                        if (IsSMAPIInstalled())
+                        {
+                            installButton.Visibility = ViewStates.Invisible;
+                            statusText.Visibility = ViewStates.Visible;
+                            launchButton.Visibility = ViewStates.Visible; // 默认隐藏启动按钮
+                            ShowLaunchButton();
+                        }
+                    });
                 }
                 catch (IOException e)
                 {
-                    //Toast.MakeText(this, "文件复制失败: " + e.Message, ToastLength.Long).Show();
+                    // 显示错误信息弹窗
+                    ShowErrorDialog("文件复制失败", e.Message);
                     throw;
-
                 }
             }
             else
             {
+                // 未找到APK文件或split_content.apk
                 Toast.MakeText(this, "未找到APK文件或split_content.apk", ToastLength.Long).Show();
             }
         }
@@ -332,13 +363,25 @@ namespace SMAPI_Installation
             }
             catch (PackageManager.NameNotFoundException ex)
             {
-                // 应用包名无效或应用未安装
-                Toast.MakeText(this, "应用未找到: " + ex.Message, ToastLength.Long).Show();
+                // 弹出错误对话框，应用未找到
+                ShowErrorDialog("应用未找到", "应用包名无效或应用未安装: " + ex.Message);
             }
 
             return splitContentApkPath;
         }
 
+        private void ShowErrorDialog(string title, string message)
+        {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.SetTitle(title);  // 设置标题
+            dialog.SetMessage(message);  // 设置错误消息
+
+            // 添加确认按钮
+            dialog.SetPositiveButton("确认", (sender, e) => { });
+
+            // 显示对话框
+            dialog.Show();
+        }
         private bool IsSMAPIInstalled()
         {
             
@@ -351,8 +394,9 @@ namespace SMAPI_Installation
         Path.Combine(privateStoragePath, "Content/Animals"),
         Path.Combine(privateStoragePath, "Content/Buildings"),
          Path.Combine(privateStoragePath, "Content/Characters"),
-              Path.Combine(privateStoragePath, "Content/Data"),
-               Path.Combine(privateStoragePath, "Content/Effects"),
+        Path.Combine(privateStoragePath, "Content/Data"),
+         Path.Combine(privateStoragePath, "Content/Effects"),
+            Path.Combine(privateStoragePath, "dotnet"),
         Path.Combine(privateStoragePath, "smapi-internal")
             };
 

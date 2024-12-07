@@ -69,6 +69,7 @@ public class CorrectedTargetFramework
                 Console.WriteLine($"处理程序集 '{assemblyPath}' 时发生错误: {ex.Message}");
             }
         }
+
     }
 
    
@@ -130,12 +131,13 @@ public class CorrectedTargetFramework
               
                 }
             }
-            else if (reference.Name.Equals("0Harmony", StringComparison.OrdinalIgnoreCase))
+         /*   else if (reference.Name.Equals("0Harmony", StringComparison.OrdinalIgnoreCase))
             {
               
                 reference.Name = "Harmony";
          
             }
+            */
             else
             {
              

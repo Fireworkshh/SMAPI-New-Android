@@ -47,7 +47,7 @@ public class dnlibModify
 
            
                 UpdateTargetFramework(assemblyDefinition, newTargetFramework);
-                UpdateReferences(assemblyDefinition);
+             
 
             
                 string modifiedAssemblyPath = Path.Combine(Path.GetDirectoryName(assemblyPath), "Modified_" + Path.GetFileName(assemblyPath));
@@ -117,32 +117,7 @@ public class dnlibModify
     }
 
  
-    static void UpdateReferences(AssemblyDefinition assemblyDefinition)
-    {
-        foreach (var reference in assemblyDefinition.MainModule.AssemblyReferences)
-        {
-         
-            if (reference.Name.StartsWith("System") || reference.Name.StartsWith("Microsoft"))
-            {
-              
-                if (reference.Version != new Version(8, 0, 0, 0))
-                {
-                    reference.Version = new Version(8, 0, 0, 0);
-               
-                }
-            }
-            else if (reference.Name.Equals("0Harmony", StringComparison.OrdinalIgnoreCase))
-            {
-             
-                reference.Name = "Harmony";
-        
-            }
-            else
-            {
-           
-            }
-        }
-    }
+
     public static void ModifyOptionsElementDrawMethod(string assemblyPath)
     {
         try
