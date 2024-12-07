@@ -6,10 +6,10 @@ SMAPI Android Loader ÊÇÒ»¸öÓÃÓÚÔÚ Android Éè±¸ÉÏ¼ÓÔØºÍ¹ÜÀí Stardew Valley Mods µ
 
 ## ¹¦ÄÜ
 
-- Ö§³Ö Stardew Valley µÄ Android °æ±¾µÄ Mods ¼ÓÔØ
-- Ìá¹©·½±ãµÄÓÃ»§½çÃæÀ´¹ÜÀíºÍÅäÖÃ Mods
-- Óë PC °æ SMAPI ¼æÈİ
-- ¼òµ¥Ò×ÓÃµÄ°²×°ºÍÉèÖÃ²½Öè
+- Ö§³Ö Stardew Valley µÄ Android °æ±¾µÄ Mods ¼ÓÔØ ¡Ì
+- Ìá¹©·½±ãµÄÓÃ»§½çÃæÀ´¹ÜÀíºÍÅäÖÃ Mods  x
+- Óë PC °æ SMAPI ¼æÈİ    o
+- ¼òµ¥Ò×ÓÃµÄ°²×°ºÍÉèÖÃ²½Öè  x
 
 ## °²×°
 
@@ -30,7 +30,7 @@ SMAPI Android Loader ÊÇÒ»¸öÓÃÓÚÔÚ Android Éè±¸ÉÏ¼ÓÔØºÍ¹ÜÀí Stardew Valley Mods µ
 
 ## ¹±Ï×
 
-ÎÒÃÇ»¶Ó­¶ÔÏîÄ¿½øĞĞ¸Ä½øºÍÀ©Õ¹¡£Çë²é¿´ [CONTRIBUTING.md](https://github.com/Fireworkshh/SMAPI-New-Android/blob/main/CONTRIBUTING.md) »ñÈ¡ÏêÏ¸ĞÅÏ¢¡£
+ÎÒÃÇ»¶Ó­¶ÔÏîÄ¿½øĞĞ¸Ä½øºÍÀ©Õ¹¡£Çë²é¿´ [CONTRIBUTING.md](https://github.com/Fireworkshh/SMAPI-New-Android/blob/master/README.md) »ñÈ¡ÏêÏ¸ĞÅÏ¢¡£
 
 ## Ğí¿ÉÖ¤
 
@@ -50,8 +50,7 @@ SMAPI Android Loader ÊÇÒ»¸öÓÃÓÚÔÚ Android Éè±¸ÉÏ¼ÓÔØºÍ¹ÜÀí Stardew Valley Mods µ
 2. ÇëÔÚÉèÖÃÖĞ¹Ø±ÕÏµÍ³ÓÅ»¯£¬·ñÔò¿ÉÄÜÎŞ·¨ÌáÈ¡°²×°°ü¡£
 3. Ä£×é·ÅÔÚ `/storage/emulated/0/Android/data/app.SMAPIStardew/Mods`¡£
 4. ÓĞÈÎºÎÎÊÌâÇë¼ÓÈº [985754557](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=4guX1RqKVQE7nawKcsnOZ477ntb2nrY3&authKey=oTUbE%2BI4fVMghqGJ4rYwAjTzoJ4d2fI8ixDcsNF6S4NYOTkJ63iBrRGhZaB2XAkH&noverify=0&group_code=781588105) Ñ¯ÎÊ¡£
-5. ÏîÄ¿µØÖ·ÒÑ¾­¿ªÔ´ [GitHub Repository](https://github.com/Fireworkshh/SMAPI-New-Android)¡£
-6. ßÙÁ¨ßÙÁ¨ UP Ö÷ÊÇ [Ã¨Àë¸öß÷Å¶](https://b23.tv/zVL6x1g)¡£
+
 
 ---
 
@@ -61,10 +60,10 @@ SMAPI Android Loader is a tool to load and manage Stardew Valley Mods on Android
 
 ## Features
 
-- Support for Mods loading on the Android version of Stardew Valley
-- Convenient user interface for managing and configuring Mods
-- Compatibility with the PC version of SMAPI
-- Easy installation and setup steps
+- Support for Mods loading on the Android version of Stardew Valley ¡Ì
+- Convenient user interface for managing and configuring Mods x
+- Compatibility with the PC version of SMAPI o
+- Easy installation and setup steps x
 
 ## Installation
 
@@ -105,5 +104,3 @@ Thank you for using SMAPI Android Loader. For any feedback or suggestions, feel 
 2. Disable system optimization in settings if the installation package cannot be extracted.
 3. Place Mods at `/storage/emulated/0/Android/data/app.SMAPIStardew/Mods`.
 4. For any questions, join our QQ group [985754557](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=4guX1RqKVQE7nawKcsnOZ477ntb2nrY3&authKey=oTUbE%2BI4fVMghqGJ4rYwAjTzoJ4d2fI8ixDcsNF6S4NYOTkJ63iBrRGhZaB2XAkH&noverify=0&group_code=781588105).
-5. The project is open source [GitHub Repository](https://github.com/Fireworkshh/SMAPI-New-Android).
-6. Bilibili UPÖ÷ is [Ã¨Àë¸öß÷Å¶](https://b23.tv/zVL6x1g).
