@@ -1,20 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest android:installLocation="auto" android:compileSdkVersion="34" android:compileSdkVersionCodename="14" package="app.SMAPIStardew" platformBuildVersionCode="34" platformBuildVersionName="14" xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0.0">
-	<!-- 允许该应用查看网络连接的相关信息 -->
+<manifest android:installLocation="auto" android:compileSdkVersion="34" android:compileSdkVersionCodename="14" package="app.SMAPIStardew" platformBuildVersionCode="34" platformBuildVersionName="14" xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.3.1">
+	<!-- Permissions -->
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	<!-- 允许该应用查看WLAN网络的相关信息 -->
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-	<!-- 允许该应用创建网络套接字和使用自定义网络协议 -->
 	<uses-permission android:name="android.permission.INTERNET" />
-	<!-- 允许应用控制振动器 -->
 	<uses-permission android:name="android.permission.VIBRATE" />
-	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 	<uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
 	<uses-feature android:glEsVersion="0x10000" android:required="true" />
-	<application android:label="SMAPIStardew Valley" android:icon="@drawable/ic_launcher" android:name="android.app.Application" android:allowBackup="true" android:extractNativeLibs="false" android:resizeableActivity="false" android:appCategory="game">
+	<!-- Application Tag -->
+	<application android:label="SMAPIStardew Valley" android:icon="@drawable/ic_launcher" android:name="android.app.Application" android:allowBackup="true" android:extractNativeLibs="false" android:resizeableActivity="false" android:appCategory="game" android:theme="@style/Theme.KotlinDemo">
+		<!-- Set theme here -->
 		<meta-data android:name="android.max_aspect" android:value="2.4" />
 		<provider android:name="mono.MonoRuntimeProvider" android:exported="false" android:authorities="app.SMAPIStardew.mono.MonoRuntimeProvider.__mono_init__" android:initOrder="1999999999" />
 	</application>

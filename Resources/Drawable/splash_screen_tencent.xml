@@ -4,7 +4,5 @@
     <item>
         <color android:color="#ffffffff" />
     </item>
-    <item>
-        <bitmap android:gravity="center" android:layout_gravity="center" android:src="@drawable/splash_logos_crop_tencent_long" android:tileMode="disabled" />
-    </item>
+
 </layer-list>

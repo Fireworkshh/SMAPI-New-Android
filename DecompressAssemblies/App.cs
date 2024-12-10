@@ -115,7 +115,7 @@ namespace Xamarin.Android.Tools.DecompressAssemblies
             }
         }
 
-        private static bool UncompressFromAPK_IndividualEntries(ZipArchive apk, string filePath, string assembliesPath, string prefix)
+        private static async Task<bool> UncompressFromAPK_IndividualEntries(ZipArchive apk, string filePath, string assembliesPath, string prefix)
         {
             foreach (ZipArchiveEntry item in apk.Entries)  // 使用 .Entries 遍历条目
             {
@@ -133,7 +133,7 @@ namespace Xamarin.Android.Tools.DecompressAssemblies
             return true;
         }
 
-        private static bool UncompressFromAPK_AssemblyStores(string filePath, string prefix)
+        private static async Task<bool> UncompressFromAPK_AssemblyStores(string filePath, string prefix)
         {
             foreach (AssemblyStoreAssembly assembly in new AssemblyStoreExplorer(filePath, null, keepStoreInMemory: true).Assemblies)
             {
@@ -153,7 +153,7 @@ namespace Xamarin.Android.Tools.DecompressAssemblies
         }
 
 
-        public static bool UncompressFromAPK(string filePath, string assembliesPath)
+        public static async Task<bool> UncompressFromAPKAsync(string filePath, string assembliesPath)
         {
             string prefix = $"uncompressed-{Path.GetFileNameWithoutExtension(filePath)}{Path.DirectorySeparatorChar}";
 
@@ -165,12 +165,12 @@ namespace Xamarin.Android.Tools.DecompressAssemblies
 
                 if (!containsAssembliesBlob)
                 {
-                    return UncompressFromAPK_IndividualEntries(zipArchive, filePath, assembliesPath, prefix);
+                    return await UncompressFromAPK_IndividualEntries(zipArchive, filePath, assembliesPath, prefix);
                 }
             }
 
             // 如果找到了 "assemblies.blob" 则使用 AssemblyStores 方式进行解压
-            return UncompressFromAPK_AssemblyStores(filePath, prefix);
+            return await UncompressFromAPK_AssemblyStores(filePath, prefix);
         }
 
 

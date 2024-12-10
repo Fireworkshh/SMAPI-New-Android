@@ -8,7 +8,7 @@ namespace StardewModdingAPI
 {
     public static class Unpacker
     {
-        public static void UnpackAllFilesFromAssets(Android.Content.Context context, string zipFileName)
+        public static async Task UnpackAllFilesFromAssets(Android.Content.Context context, string zipFileName)
         {
             try
             {

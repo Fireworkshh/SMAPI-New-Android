@@ -1,4 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="splash_background">#ffffffff</color>
+	
+	<color name="ColorPrimaryLight">#E0E0E0</color>
+	
+	<color name="ColorPrimaryDarkLight">#C0C0C0</color>
+
+	<color name="ColorAccentLight">#FFBB86FC</color>
+
+	<color name="textColorPrimaryLight">#000000</color>
+
+	<color name="windowBackgroundLight">#FFFFFF</color>
+
+	<color name="BrandColorLight">#FFFFFF</color>
+
+	<color name="SearchColorLight">#000000</color>
+
+	<color name="bottom_navigation_background_light">#F5F5F5</color>
+
+	<color name="LaunchBackgroundLight">#FFFFFF</color>
+
+
+
+	<color name="ColorPrimaryDark">#121212</color>
+
+	<color name="ColorAccentDark">#BB86FC</color>
+
+	<color name="textColorPrimaryDark">#FFFFFF</color>
+
+	<color name="windowBackgroundDark">#000000</color>
+
+	<color name="colorBackgroundDark">#1D1D1D</color>
+
 </resources>

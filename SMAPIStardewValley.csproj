@@ -1,128 +1,111 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net8.0-android</TargetFramework>
-    <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
-    <OutputType>Exe</OutputType>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <ApplicationId>app.SMAPIStardew</ApplicationId>
-    <ApplicationVersion>1</ApplicationVersion>
-    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
-    <AssemblyName>SMAPIStardewValley</AssemblyName>
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <RunAOTCompilation>False</RunAOTCompilation>
-    <PublishTrimmed>False</PublishTrimmed>
-    <Optimize>False</Optimize>
-    <AndroidPackageFormat>apk</AndroidPackageFormat>
-    <DebugSymbols>True</DebugSymbols>
-    <IsTrimmable>True</IsTrimmable>
-    <AndroidUseAapt2>True</AndroidUseAapt2>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <IsTrimmable>True</IsTrimmable>
-    <Optimize>False</Optimize>
-    <AndroidUseAapt2>True</AndroidUseAapt2>
-  </PropertyGroup>
-  <ItemGroup>
-    <AndroidJavaSource Remove="0Harmony\**" />
-    <AndroidLibrary Remove="0Harmony\**" />
-    <AndroidNativeLibrary Remove="0Harmony\**" />
-    <Compile Remove="0Harmony\**" />
-    <EmbeddedResource Remove="0Harmony\**" />
-    <JavaSourceJar Remove="0Harmony\**" />
-    <None Remove="0Harmony\**" />
-    <ProguardConfiguration Remove="0Harmony\**" />
-    <TransformFile Remove="0Harmony\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="AssemblyStoreAssembly.cs" />
-    <Compile Remove="DoPack.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="Assets\Buildings.xnb" />
-    <None Remove="Assets\dotnet.zip" />
-    <None Remove="Lib\arm64-v8a\liblwjgl_lz4.so" />
-    <None Remove="Resources\Drawable\ic_launcher.png" />
-    <None Remove="Resources\layout\activity_main.xml" />
-    <None Remove="Resources\mipmap\ic_launcher.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="dnlib" Version="4.4.0" />
-    <PackageReference Include="K4os.Compression.LZ4" Version="1.3.8" />
-    <PackageReference Include="Krafs.Publicizer" Version="2.2.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="SharpZipLib.NETStandard" Version="1.0.7" />
-    <PackageReference Include="SkiaSharp" Version="2.88.9" />
-    <PackageReference Include="Xamarin.AndroidX.DocumentFile" Version="1.0.1.30" />
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0-android</TargetFramework>
+		<SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
+		<OutputType>Exe</OutputType>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<ApplicationId>app.SMAPIStardew</ApplicationId>
+		<ApplicationVersion>1</ApplicationVersion>
+		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<AssemblyName>SMAPIStardewValley</AssemblyName>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<RunAOTCompilation>False</RunAOTCompilation>
+		<PublishTrimmed>False</PublishTrimmed>
+		<Optimize>False</Optimize>
+		<AndroidPackageFormat>apk</AndroidPackageFormat>
+		<DebugSymbols>True</DebugSymbols>
+		<IsTrimmable>False</IsTrimmable>
+		<AndroidUseAapt2>True</AndroidUseAapt2>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<IsTrimmable>False</IsTrimmable>
+		<Optimize>False</Optimize>
+		<AndroidUseAapt2>True</AndroidUseAapt2>
+	</PropertyGroup>
 
 	<ItemGroup>
-		<Publicize Include="StardewModdingAPI" IncludeVirtualMembers="false" />
+		<!-- Removing unwanted files -->
+		<AndroidJavaSource Remove="0Harmony\**" />
+		<AndroidLibrary Remove="0Harmony\**" />
+		<AndroidNativeLibrary Remove="0Harmony\**" />
+		<Compile Remove="0Harmony\**" />
+		<EmbeddedResource Remove="0Harmony\**" />
+		<JavaSourceJar Remove="0Harmony\**" />
+		<None Remove="0Harmony\**" />
+		<ProguardConfiguration Remove="0Harmony\**" />
+		<TransformFile Remove="0Harmony\**" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Publicize Include="StardewValley" IncludeVirtualMembers="false" />
+	  <Compile Remove="AssemblyStoreAssembly.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
-    <Reference Include="0Harmony">
-      <HintPath>..\..\..\下载\Harmony-master\Harmony-master\Harmony\bin\DebugThin\net8.0\0Harmony.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil">
-      <HintPath>..\..\..\下载\Harmony-master\Harmony-master\Harmony\bin\DebugThin\net8.0\Mono.Cecil.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil.Mdb">
-      <HintPath>..\..\..\下载\Harmony-master\Harmony-master\Harmony\bin\DebugThin\net8.0\Mono.Cecil.Mdb.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil.Pdb">
-      <HintPath>..\..\..\下载\Harmony-master\Harmony-master\Harmony\bin\DebugThin\net8.0\Mono.Cecil.Pdb.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cecil.Rocks">
-      <HintPath>..\..\..\下载\Harmony-master\Harmony-master\Harmony\bin\DebugThin\net8.0\Mono.Cecil.Rocks.dll</HintPath>
-    </Reference>
-    <Reference Include="MonoGame.Framework">
-      <HintPath>..\..\..\下载\SMAPI-develop (5)\SMAPI-develop\src\SMAPI\bin\Release\MonoGame.Framework.dll</HintPath>
-    </Reference>
-    <Reference Include="MonoMod.Backports">
-      <HintPath>..\..\..\下载\Harmony-master\Harmony-master\Harmony\bin\DebugThin\net8.0\MonoMod.Backports.dll</HintPath>
-    </Reference>
-    <Reference Include="MonoMod.Core">
-      <HintPath>..\..\..\下载\Harmony-master\Harmony-master\Harmony\bin\DebugThin\net8.0\MonoMod.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="MonoMod.Iced">
-      <HintPath>..\..\..\下载\Harmony-master\Harmony-master\Harmony\bin\DebugThin\net8.0\MonoMod.Iced.dll</HintPath>
-    </Reference>
-    <Reference Include="MonoMod.ILHelpers">
-      <HintPath>..\..\..\下载\Harmony-master\Harmony-master\Harmony\bin\DebugThin\net8.0\MonoMod.ILHelpers.dll</HintPath>
-    </Reference>
-    <Reference Include="MonoMod.Patcher">
-      <HintPath>..\..\..\下载\Harmony-master\Harmony-master\Harmony\bin\DebugThin\net8.0\MonoMod.Patcher.dll</HintPath>
-    </Reference>
-    <Reference Include="MonoMod.RuntimeDetour">
-      <HintPath>..\..\..\下载\Harmony-master\Harmony-master\Harmony\bin\DebugThin\net8.0\MonoMod.RuntimeDetour.dll</HintPath>
-    </Reference>
-    <Reference Include="MonoMod.Utils">
-      <HintPath>..\..\..\下载\Harmony-master\Harmony-master\Harmony\bin\DebugThin\net8.0\MonoMod.Utils.dll</HintPath>
-    </Reference>
-    <Reference Include="SMAPI.Toolkit">
-      <HintPath>..\..\..\下载\SMAPI-develop (5)\SMAPI-develop\src\SMAPI\bin\Release\SMAPI.Toolkit.dll</HintPath>
-    </Reference>
-    <Reference Include="SMAPI.Toolkit.CoreInterfaces">
-      <HintPath>..\..\..\下载\SMAPI-develop (5)\SMAPI-develop\src\SMAPI\bin\Release\SMAPI.Toolkit.CoreInterfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="StardewModdingAPI">
-      <HintPath>..\..\..\下载\SMAPI-develop (5)\SMAPI-develop\src\SMAPI\bin\Release\StardewModdingAPI.dll</HintPath>
-    </Reference>
-    <Reference Include="StardewValley">
-      <HintPath>..\..\..\BaiduNetdiskDownload\decompress-assemblies\decompress-assemblies\uncompressed-Stardew Valley_v1.6.14.3\StardewValley.dll</HintPath>
-    </Reference>
-    <Reference Include="xTile">
-      <HintPath>..\..\..\Stardew Assemblies\Stardew Assemblies\xTile.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+		<!-- Remove specific files -->
+		<None Remove="Assets\Buildings.xnb" />
+		<None Remove="Assets\dotnet.zip" />
+		<None Remove="Lib\arm64-v8a\liblwjgl_lz4.so" />
+		<None Remove="Resources\Drawable\bg_page.xml" />
+		<None Remove="Resources\Drawable\circular_button_background.xml" />
+		<None Remove="Resources\Drawable\circular_button_background1.xml" />
+		<None Remove="Resources\Drawable\ic_game.xml" />
+		<None Remove="Resources\Drawable\ic_install.png" />
+		<None Remove="Resources\Drawable\ic_launcher.png" />
+		<None Remove="Resources\Drawable\ic_mod.xml" />
+		<None Remove="Resources\Drawable\ic_setting.xml" />
+		<None Remove="Resources\layout\activity_main.xml" />
+		<None Remove="Resources\layout\fragment_game.xml" />
+		<None Remove="Resources\layout\fragment_setting.xml" />
+		<None Remove="Resources\menu\fragment_mod.xml" />
+		<None Remove="Resources\mipmap\ic_launcher.png" />
+		<None Remove="Resources\Values\themes.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="dnlib" Version="4.4.0" />
+		<PackageReference Include="K4os.Compression.LZ4" Version="1.3.8" />
+		<PackageReference Include="Krafs.Publicizer" Version="2.2.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="SharpZipLib.NETStandard" Version="1.0.7" />
+		<PackageReference Include="SkiaSharp" Version="2.88.9" />
+		<PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.7.0.4" />
+		<PackageReference Include="Xamarin.AndroidX.CoordinatorLayout" Version="1.2.0.18" />
+		<PackageReference Include="Xamarin.AndroidX.Core" Version="1.15.0.1" />
+		<PackageReference Include="Xamarin.AndroidX.DocumentFile" Version="1.0.1.30" />
+		<PackageReference Include="Xamarin.AndroidX.Fragment" Version="1.8.5.1" />
+		<PackageReference Include="Xamarin.Google.Android.Material" Version="1.12.0.1" />
+		<PackageReference Include="Xamarin.Google.Android.Material.Compose.Theme.Adapter" Version="1.1.18.16" />
+	</ItemGroup>
+
+	<!-- Add references to external assemblies -->
+	<ItemGroup>
+		<Reference Include="Mono.Cecil">
+			<HintPath>..\..\..\下载\Harmony-master\Harmony-master\Harmony\bin\DebugThin\net8.0\Mono.Cecil.dll</HintPath>
+		</Reference>
+		<Reference Include="Mono.Cecil.Mdb">
+			<HintPath>..\..\..\下载\Harmony-master\Harmony-master\Harmony\bin\DebugThin\net8.0\Mono.Cecil.Mdb.dll</HintPath>
+		</Reference>
+		<Reference Include="Mono.Cecil.Pdb">
+			<HintPath>..\..\..\下载\Harmony-master\Harmony-master\Harmony\bin\DebugThin\net8.0\Mono.Cecil.Pdb.dll</HintPath>
+		</Reference>
+		<Reference Include="Mono.Cecil.Rocks">
+			<HintPath>..\..\..\下载\Harmony-master\Harmony-master\Harmony\bin\DebugThin\net8.0\Mono.Cecil.Rocks.dll</HintPath>
+		</Reference>
+		<Reference Include="MonoGame.Framework">
+			<HintPath>..\..\..\下载\SMAPI-develop (5)\SMAPI-develop\src\SMAPI\bin\Release\MonoGame.Framework.dll</HintPath>
+		</Reference>
+		<Reference Include="StardewModdingAPI">
+		  <HintPath>..\..\..\下载\SMAPI-develop (5)\SMAPI-develop\src\SMAPI\bin\Release\StardewModdingAPI.dll</HintPath>
+		</Reference>
+		<Reference Include="xTile">
+			<HintPath>..\..\..\Stardew Assemblies\Stardew Assemblies\xTile.dll</HintPath>
+		</Reference>
+	</ItemGroup>
 </Project>

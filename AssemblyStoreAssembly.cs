@@ -438,8 +438,8 @@ public class AssemblyStore
         }
 
         // 定义文件路径
-        string manifestPath = Path.Combine(GameMainActivity.externalFilesDir, "assemblies.manifest");
-        string blobPath = Path.Combine(GameMainActivity.externalFilesDir, "assemblies.blob");
+        string manifestPath = Path.Combine(SMAPIMainActivity.externalFilesDir, "assemblies.manifest");
+        string blobPath = Path.Combine(SMAPIMainActivity.externalFilesDir, "assemblies.blob");
 
         // 检查是否已有文件
         if (!File.Exists(manifestPath) || !File.Exists(blobPath))
@@ -468,7 +468,7 @@ public class AssemblyStore
         foreach (JsonElement assembly in assemblies)
         {
             string assemblyName = assembly.GetProperty("name").GetString();
-            string filePath = Path.Combine(GameMainActivity.externalFilesDir, assemblyName);
+            string filePath = Path.Combine(SMAPIMainActivity.externalFilesDir, assemblyName);
 
             if (!File.Exists(filePath))
             {

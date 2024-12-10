@@ -55,7 +55,7 @@ public static class MoveBuildings
         }
     }
 
-    public static void MoveBuildingsFileToTargetDirectory(Android.Content.Context context)
+    public static async Task MoveBuildingsFileToTargetDirectory(Android.Content.Context context)
     {
         try
         {

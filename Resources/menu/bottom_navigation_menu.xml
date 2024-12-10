@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+	
+
+	<item
+        android:id="@+id/navigation_mod"
+        android:icon="@drawable/ic_mod"   
+	android:title="模组管理"                       
+	android:contentDescription="模组管理" />     
+
+	<item
+        android:id="@+id/navigation_game"
+        android:icon="@drawable/ic_game"         
+	android:title="启动游戏"                   
+	android:contentDescription="启动游戏" /> 
+	<item
+        android:id="@+id/navigation_setting"
+        android:icon="@drawable/ic_setting"      
+	android:title="设置"                       
+	android:contentDescription="设置" />       
+
+</menu>

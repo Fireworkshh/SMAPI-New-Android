@@ -1,22 +1,23 @@
-﻿using dnlib.DotNet;
+using dnlib.DotNet;
 using dnlib.DotNet.Emit;
-using System;
-using System.IO;
-using System.Linq;
-using SMAPI_Installation;
-using StardewModdingAPI;
-using StardewValley.Objects;
-using StardewValley;
 using dnlib.DotNet.Writer;
-using HarmonyLib;
+using Mono.Cecil;
+using SMAPI_Installation;
+using SMAPIStardewGame;
+using StardewModdingAPI;
+using System.Reflection;
+using CustomAttribute = Mono.Cecil.CustomAttribute;
 
 namespace SMAPIStardewValley
 {
-    public class HarmonyPatch_StardewValley
+    public class dnlibPatchPatch_StardewValley
     {
-        public static void HarmonyPatch()
+        public static void dnlibPatch()
         {
-            string externalFilesDir = GameMainActivity.externalFilesDir;
+
+
+            AppDomain.CurrentDomain.AssemblyResolve += AssemblyResolve.HandleAssemblyResolve;
+            string externalFilesDir = MainActivity.GetPrivateStoragePath();
 
             // 获取上一级目录
             string parentDir = Path.GetDirectoryName(externalFilesDir);
@@ -26,21 +27,232 @@ namespace SMAPIStardewValley
             {
                 Directory.CreateDirectory(modsDir);
             }
+            HarmonyPatch();
+         
+        
 
-            // 处理 FarmTypeManager.dll
-            ProcessAssembly(modsDir, "FarmTypeManager.dll", "FarmTypeManager.ModEntry", "FarmTypeManager.ModEntry/HarmonyPatch_OptimizeMonsterCode", "ApplyPatch");
+      
+      
+       //    ProcessItemMigrator(modsDir, "StardewValleyExpanded.dll");
 
-            // 处理 StardewValleyExpanded.dll
-            ProcessAssembly1(modsDir, "StardewValleyExpanded.dll", "StardewValleyExpanded.ClintVolumeControl", "StardewValleyExpanded.ClintVolumeControl/CueWrapper", "Pitch", "Volume", "IsPitchBeingControlledByRPC");
-          //666  UpdatePatchesInAssemblies(modsDir,"StardewValleyExpanded.dll", "doFishSpecificWaterColoring", "FishPond_doFishSpecificWaterColoring");
-            // 修改 ItemMigrator.FixCrop 方法
-            ProcessItemMigrator(modsDir, "StardewValleyExpanded.dll");
-            ModifyRecursiveIterateLocation(modsDir, "StardewValleyExpanded.dll");
+         //666   ModifyRecursiveIterateLocation(modsDir, "StardewValleyExpanded.dll");
+
+          ClearMethodBody(modsDir, "StardewValleyExpanded.dll", "StardewValleyExpanded.EndNexusMusic", "Hook");
+            ModifyXmlElementToXmlArrayWithMonoMod(modsDir, "FarmTypeManager.ModEntry", "Items");
+
         }
 
+        public static void ModifyXmlElementToXmlArrayWithMonoMod(string modsDir, string className, string fieldName)
+        {
 
-     
 
+
+            string[] dllFiles = Directory.GetFiles(modsDir, "FarmTypeManager.dll", SearchOption.AllDirectories);
+
+            foreach (string modDllPath in dllFiles)
+            {
+                try
+                {
+                    // 使用 MonoMod 加载程序集
+                    Console.WriteLine($"正在加载程序集: {modDllPath}");
+                    var module = ModuleDefinition.ReadModule(modDllPath);
+
+                    // 找到指定的类
+                    var type = module.Types.FirstOrDefault(t => t.FullName == className);
+                    if (type == null)
+                    {
+                        Console.WriteLine($"未找到类 {className}！");
+                        return;
+                    }
+                    Console.WriteLine($"已找到类 {className}");
+
+                    // 如果是嵌套类，考虑查找其嵌套类型
+                    var nestedType = type.NestedTypes.FirstOrDefault(nt => nt.FullName == $"{className}/BuriedItems");
+                    if (nestedType == null)
+                    {
+                        Console.WriteLine($"未找到嵌套类 {className}+BuriedItems！");
+                        return;
+                    }
+                    Console.WriteLine($"已找到嵌套类 {className}+BuriedItems");
+
+                    // 找到指定的字段
+                    var field = nestedType.Fields.FirstOrDefault(f => f.Name == fieldName);
+                    if (field == null)
+                    {
+                        Console.WriteLine($"未找到字段 {fieldName}！");
+                        return;
+                    }
+                    Console.WriteLine($"已找到字段 {fieldName}");
+
+                    // 修改 XML 特性
+                    var attributes = field.CustomAttributes;
+
+                    // 查找并移除原来的 XmlElement 属性
+                    var xmlElementAttr = attributes.FirstOrDefault(attr => attr.AttributeType.FullName == "System.Xml.Serialization.XmlElementAttribute");
+                    if (xmlElementAttr != null)
+                    {
+                        attributes.Remove(xmlElementAttr);
+                        Console.WriteLine($"已移除字段 {fieldName} 上的 XmlElement 属性");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"字段 {fieldName} 上没有找到 XmlElement 属性，跳过移除");
+                    }
+
+                    // 创建并添加新的 XmlArray 和 XmlArrayItem 属性
+                    var xmlArrayCtor = module.ImportReference(typeof(System.Xml.Serialization.XmlArrayAttribute).GetConstructor(new Type[] { typeof(string) }));
+                    var xmlArrayItemCtor = module.ImportReference(typeof(System.Xml.Serialization.XmlArrayItemAttribute).GetConstructor(new Type[] { typeof(string) }));
+
+                    field.CustomAttributes.Add(new CustomAttribute(xmlArrayCtor)
+                    {
+                        ConstructorArguments = { new CustomAttributeArgument(module.ImportReference(typeof(string)), "Items") }
+                    });
+                    Console.WriteLine($"已添加 XmlArray 属性，参数: 'Items'");
+
+                    field.CustomAttributes.Add(new CustomAttribute(xmlArrayItemCtor)
+                    {
+                        ConstructorArguments = { new CustomAttributeArgument(module.ImportReference(typeof(string)), "Item") }
+                    });
+                    Console.WriteLine($"已添加 XmlArrayItem 属性，参数: 'Item'");
+
+                    // 保存修改后的程序集并命名为原来的名称
+                    string modifiedAssemblyPath = Path.Combine(Path.GetDirectoryName(modDllPath), "Modified_" + Path.GetFileName(modDllPath));
+
+         
+
+                    module.Write(modifiedAssemblyPath);
+                    Console.WriteLine($"修改后的程序集已保存为: {modifiedAssemblyPath}");
+
+                    // 删除原文件并覆盖为修改后的文件
+                    File.Delete(modDllPath);  // 删除原文件
+                    File.Move(modifiedAssemblyPath, modDllPath);  // 将修改后的文件重命名为原文件名
+                    Console.WriteLine($"已删除原始程序集并覆盖为修改后的版本：{modDllPath}");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"修改程序集 '{modDllPath}' 时发生错误: {ex.Message}");
+                }
+            }
+        }
+
+        public static void HarmonyPatch()
+        {
+            string externalFilesDir = MainActivity.GetPrivateStoragePath();
+
+            // 获取上一级目录
+            string parentDir = Path.GetDirectoryName(externalFilesDir);
+
+            // 遍历 Mods 文件夹寻找 FarmTypeManager.dll
+            string modsDir = Path.Combine(parentDir, "Mods");
+            string[] dllFiles = Directory.GetFiles(modsDir, "FarmTypeManager.dll", SearchOption.AllDirectories);
+
+            foreach (string modDllPath in dllFiles)
+            {
+                try
+                {
+                    // 加载程序集
+                    ModuleDefMD module = ModuleDefMD.Load(modDllPath);
+
+                    // 输出所有类型，帮助检查全名
+                    foreach (var type in module.Types)
+                    {
+                        if (type.FullName == "FarmTypeManager.ModEntry")
+                        {
+                            foreach (var nestedType in type.NestedTypes)
+                            {
+                                if (nestedType.FullName == "FarmTypeManager.ModEntry/HarmonyPatch_OptimizeMonsterCode")
+                                {
+                                    // 获取 ApplyPatch 方法
+                                    MethodDef applyPatchMethod = nestedType.Methods.FirstOrDefault(m => m.Name == "ApplyPatch");
+
+                                    if (applyPatchMethod != null)
+                                    {
+                                        // 清除方法体的所有内容
+                                        applyPatchMethod.Body = new CilBody();
+                                        applyPatchMethod.Body.Variables.Clear();
+                                        applyPatchMethod.Body.ExceptionHandlers.Clear();
+                                        applyPatchMethod.Body.Instructions.Add(Instruction.Create(OpCodes.Ret));
+
+                                        // 保存修改后的程序集
+                                        string modifiedAssemblyPath = Path.Combine(Path.GetDirectoryName(modDllPath), "Modified_" + Path.GetFileName(modDllPath));
+                                        module.Write(modifiedAssemblyPath);
+
+                                        // 删除原文件并覆盖
+                                        File.Delete(modDllPath);
+                                        File.Move(modifiedAssemblyPath, modDllPath);
+
+                                      //  Console.WriteLine("修改后的程序集已保存至: " + modDllPath);
+                                    }
+                                    else
+                                    {
+                                      //  Console.WriteLine("未找到 ApplyPatch 方法！");
+                                    }
+
+                                    return;
+                                }
+                            }
+                        }
+                    }
+
+                    Console.WriteLine("未找到 HarmonyPatch_OptimizeMonsterCode 类！");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"处理程序集 '{modDllPath}' 时发生错误: {ex.Message}");
+                }
+            }
+        }
+    
+
+
+private static void ClearMethodBody(string modsDir, string dllFileName, string targetTypeFullName, string methodName)
+        {
+            string[] dllFiles = Directory.GetFiles(modsDir, dllFileName, SearchOption.AllDirectories);
+
+            foreach (string modDllPath in dllFiles)
+            {
+                try
+                {
+                    // 加载程序集
+                    ModuleDefMD module = ModuleDefMD.Load(modDllPath);
+
+                    foreach (var type in module.Types)
+                    {
+                        if (type.FullName == targetTypeFullName)
+                        {
+                            // 查找指定方法
+                            var method = type.Methods.FirstOrDefault(m => m.Name == methodName);
+                            if (method != null)
+                            {
+                                // 清空方法体
+                                method.Body = new CilBody(); // 这将清空方法的所有指令
+
+                                // 更新并保存修改后的程序集
+                                string modifiedAssemblyPath = Path.Combine(Path.GetDirectoryName(modDllPath), "Modified_" + Path.GetFileName(modDllPath));
+                                module.Write(modifiedAssemblyPath);
+
+                                // 删除原文件并替换为修改后的文件
+                                File.Delete(modDllPath);
+                                File.Move(modifiedAssemblyPath, modDllPath);
+
+                               // Console.WriteLine($"方法 {methodName} 的内容已被清空，并保存至: {modDllPath}");
+                                return;
+                            }
+                            else
+                            {
+                                Console.WriteLine($"未找到方法 {methodName}！");
+                            }
+                        }
+                    }
+
+                    Console.WriteLine($"未找到类 {targetTypeFullName}！");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"处理程序集 '{modDllPath}' 时发生错误: {ex.Message}");
+                }
+            }
+        }
         /// <summary>
         /// 替换补丁方法调用
         /// </summary>
@@ -66,9 +278,9 @@ namespace SMAPIStardewValley
         }
         private static void ProcessAssembly(string modsDir, string dllFileName, string targetTypeFullName, string targetNestedTypeFullName, params string[] fieldsToRemove)
         {
-            var dllFiles = Directory.GetFiles(modsDir, dllFileName, SearchOption.AllDirectories);
+            string[] dllFiles = Directory.GetFiles(modsDir, dllFileName, SearchOption.AllDirectories);
 
-            foreach (var modDllPath in dllFiles)
+            foreach (string modDllPath in dllFiles)
             {
                 try
                 {
@@ -118,9 +330,9 @@ namespace SMAPIStardewValley
         }
         private static void ProcessAssembly1(string modsDir, string dllFileName, string targetTypeFullName, string targetNestedTypeFullName, params string[] fieldsToRemove)
         {
-            var dllFiles = Directory.GetFiles(modsDir, dllFileName, SearchOption.AllDirectories);
+            string[] dllFiles = Directory.GetFiles(modsDir, dllFileName, SearchOption.AllDirectories);
 
-            foreach (var modDllPath in dllFiles)
+            foreach (string modDllPath in dllFiles)
             {
                 try
                 {
@@ -136,7 +348,7 @@ namespace SMAPIStardewValley
                             {
                                 if (nestedType.FullName == targetNestedTypeFullName)
                                 {
-                                    Console.WriteLine($"正在处理类型: {targetNestedTypeFullName}");
+                                    //Console.WriteLine($"正在处理类型: {targetNestedTypeFullName}");
 
                                     // 移除指定的字段
                                     var utf8FieldsToRemove = fieldsToRemove.Select(f => new dnlib.DotNet.UTF8String(f)).ToArray();
@@ -211,9 +423,9 @@ namespace SMAPIStardewValley
 
         public static void ModifyRecursiveIterateLocation(string modsDir, string dllFileName)
 {
-    var dllFiles = Directory.GetFiles(modsDir, dllFileName, SearchOption.AllDirectories);
+    string[] dllFiles = Directory.GetFiles(modsDir, dllFileName, SearchOption.AllDirectories);
 
-    foreach (var modDllPath in dllFiles)
+    foreach (string modDllPath in dllFiles)
     {
         try
         {
@@ -272,9 +484,9 @@ namespace SMAPIStardewValley
         // 处理 StardewValleyExpanded.dll 中的 ItemMigrator.FixCrop 方法
         private static void ProcessItemMigrator(string modsDir, string dllFileName)
         {
-            var dllFiles = Directory.GetFiles(modsDir, dllFileName, SearchOption.AllDirectories);
+            string[] dllFiles = Directory.GetFiles(modsDir, dllFileName, SearchOption.AllDirectories);
 
-            foreach (var modDllPath in dllFiles)
+            foreach (string modDllPath in dllFiles)
             {
                 try
                 {
