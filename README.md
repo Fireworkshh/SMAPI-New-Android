@@ -20,4 +20,4 @@
 2. Disable system optimization in settings if the installation package cannot be extracted.
 3. Place Mods at `/storage/emulated/0/Android/data/app.SMAPIStardew/Mods`.
 4. For any questions, join our QQ group [985754557](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=4guX1RqKVQE7nawKcsnOZ477ntb2nrY3&authKey=oTUbE%2BI4fVMghqGJ4rYwAjTzoJ4d2fI8ixDcsNF6S4NYOTkJ63iBrRGhZaB2XAkH&noverify=0&group_code=781588105).
-5. It takes a lot of time to be compatible with nexus mods, this is all caused by MonoMod, and it will not be updated again if this problem is not completely solved, I don't have this time to do this kind of mod compatible thing, there are other things to do
+5. It takes a lot of time to be compatible with nexus mods, this is all caused by MonoMod, and it will not be updated again if this problem is not completely solved, I don't have this time to do this kind of mod compatible thing, there are other things to do，Run away.......
