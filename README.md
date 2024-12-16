@@ -2,105 +2,22 @@
 
 ![SMAPI Android Loader Logo](https://github.com/Fireworkshh/SMAPI-New-Android/blob/master/Resources/Drawable/ic_launcher.png)
 
-SMAPI Android Loader ÊÇÒ»¸öÓÃÓÚÔÚ Android Éè±¸ÉÏ¼ÓÔØºÍ¹ÜÀí Stardew Valley Mods µÄ¹¤¾ß¡£
 
-## ¹¦ÄÜ
+### ä¿¡æ¯
 
-- Ö§³Ö Stardew Valley µÄ Android °æ±¾µÄ Mods ¼ÓÔØ 
-- Ìá¹©·½±ãµÄÓÃ»§½çÃæÀ´¹ÜÀíºÍÅäÖÃ Mods  
-- Óë PC °æ SMAPI ¼æÈİ    
-- ¼òµ¥Ò×ÓÃµÄ°²×°ºÍÉèÖÃ²½Öè  
-
-## °²×°
-
-1. **ÏÂÔØ**: ´Ó [Releases](https://github.com/Fireworkshh/SMAPI-New-Android/releases) Ò³Ãæ»ñÈ¡×îĞÂ°æ±¾¡£
-2. **°²×°**: ½«ÏÂÔØµÄÎÄ¼ş¸´ÖÆµ½ÄúµÄÉè±¸²¢ÔËĞĞ¡£
-3. **ÅäÖÃ**: °´ÕÕÓ¦ÓÃÄÚµÄÖ¸Òı²½ÖèÅäÖÃÄúµÄÓÎÏ·Â·¾¶ºÍ Mods Ä¿Â¼¡£
-
-## ÓÃ·¨
-
-1. ´ò¿ª SMAPI Android Loader Ó¦ÓÃ¡£
-2. ä¯ÀÀºÍÑ¡ÔñÒª¼ÓÔØµÄ Mods¡£
-3. µã»÷ "Æô¶¯ÓÎÏ·" °´Å¥ÏíÊÜÄúµÄÓÎÏ·ÌåÑé¡£
-
-## ³£¼ûÎÊÌâ
-
-- **ÈçºÎÕÒµ½ÓÎÏ·Êı¾İÂ·¾¶£¿** Ä£×éÂ·¾¶·ÅÔÚ `/storage/emulated/0/Android/data/app.SMAPIStardew/Mods` ÏÂ¡£
-- **Mods ²»¹¤×÷ÔõÃ´°ì£¿** È·±£ÄúµÄ Mods ¼æÈİ Stardew Valley µÄ Android °æ±¾£¬²¢ÇÒÒÑÕıÈ··ÅÖÃÓÚ `Mods` ÎÄ¼ş¼ĞÖĞ¡£
-
-## ¹±Ï×
-
-ÎÒÃÇ»¶Ó­¶ÔÏîÄ¿½øĞĞ¸Ä½øºÍÀ©Õ¹¡£Çë²é¿´ [CONTRIBUTING.md](https://github.com/Fireworkshh/SMAPI-New-Android/blob/master/README.md) »ñÈ¡ÏêÏ¸ĞÅÏ¢¡£
-
-## Ğí¿ÉÖ¤
-
-´ËÏîÄ¿¸ù¾İ [MIT License](LICENSE) Ğí¿É¡£
-
-## Ö§³Ö
-
-ÈçĞè°ïÖú£¬Çë·ÃÎÊ [GitHub Issues](https://github.com/Fireworkshh/SMAPI-New-Android/issues) Ìá½»ÎÊÌâ¡£
-
----
-
-¸ĞĞ»ÄúÊ¹ÓÃ SMAPI Android Loader£¬ÈçÓĞÈÎºÎÒâ¼û»ò½¨Òé£¬»¶Ó­ÓëÎÒÃÇÁªÏµ£¡
-
-### ¶îÍâĞÅÏ¢
-
-1. ÇëÔÚ¹È¸èÏÂÔØÓÎÏ·È»ºóµã»÷°²×°£¬°²×°ºóÆô¶¯¼´¿É¡£
-2. ÇëÔÚÉèÖÃÖĞ¹Ø±ÕÏµÍ³ÓÅ»¯£¬·ñÔò¿ÉÄÜÎŞ·¨ÌáÈ¡°²×°°ü¡£
-3. Ä£×é·ÅÔÚ `/storage/emulated/0/Android/data/app.SMAPIStardew/Mods`¡£
-4. ÓĞÈÎºÎÎÊÌâÇë¼ÓÈº [985754557](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=4guX1RqKVQE7nawKcsnOZ477ntb2nrY3&authKey=oTUbE%2BI4fVMghqGJ4rYwAjTzoJ4d2fI8ixDcsNF6S4NYOTkJ63iBrRGhZaB2XAkH&noverify=0&group_code=781588105) Ñ¯ÎÊ¡£
-
-
----
+1. è¯·åœ¨è°·æ­Œä¸‹è½½æ¸¸æˆç„¶åç‚¹å‡»å®‰è£…ï¼Œå®‰è£…åå¯åŠ¨å³å¯ã€‚
+2. è¯·åœ¨è®¾ç½®ä¸­å…³é—­ç³»ç»Ÿä¼˜åŒ–ï¼Œå¦åˆ™å¯èƒ½æ— æ³•æå–å®‰è£…åŒ…ã€‚
+3. æ¨¡ç»„æ”¾åœ¨ `/storage/emulated/0/Android/data/app.SMAPIStardew/Mods`ã€‚
+4. æœ‰ä»»ä½•é—®é¢˜è¯·åŠ ç¾¤ [985754557](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=4guX1RqKVQE7nawKcsnOZ477ntb2nrY3&authKey=oTUbE%2BI4fVMghqGJ4rYwAjTzoJ4d2fI8ixDcsNF6S4NYOTkJ63iBrRGhZaB2XAkH&noverify=0&group_code=781588105) è¯¢é—®ã€‚
+5. å…¼å®¹nexusæ¨¡ç»„éœ€è¦å¤§é‡æ—¶é—´,è¿™éƒ½æ˜¯MonoModé€ æˆçš„,æ²¡æœ‰å½»åº•è§£å†³è¿™ä¸ªé—®é¢˜ä¸ä¼šå†æ›´æ–°,æˆ‘æ²¡æœ‰è¿™ä¸ªæ—¶é—´æ¥åšè¿™ç§å…¼å®¹æ¨¡ç»„çš„äº‹æƒ…,è¿˜æœ‰å…¶ä»–äº‹æƒ…è¦åš
 
 # SMAPI Android Loader (English Version)
 
-SMAPI Android Loader is a tool to load and manage Stardew Valley Mods on Android devices.
 
-## Features
-
-- Support for Mods loading on the Android version of Stardew Valley 
-- Convenient user interface for managing and configuring Mods 
-- Compatibility with the PC version of SMAPI 
-- Easy installation and setup steps 
-
-## Installation
-
-1. **Download**: Get the latest version from the [Releases](https://github.com/Fireworkshh/SMAPI-New-Android/releases) page.
-2. **Install**: Copy the downloaded file to your device and run it.
-3. **Configure**: Follow the in-app steps to set up your game path and Mods directory.
-
-## Usage
-
-1. Open the SMAPI Android Loader app.
-2. Browse and select the Mods you want to load.
-3. Click "Start Game" to enjoy your game experience.
-
-## FAQ
-
-- **How to find the game data path?** The Mods path is located at `/storage/emulated/0/Android/data/app.SMAPIStardew/Mods`.
-- **What if Mods don't work?** Ensure your Mods are compatible with the Android version of Stardew Valley and are correctly placed in the `Mods` folder.
-
-## Contributing
-
-We welcome improvements and expansions to the project. Please see [CONTRIBUTING.md](https://github.com/Fireworkshh/SMAPI-New-Android/blob/main/CONTRIBUTING.md) for more details.
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
-## Support
-
-For assistance, please visit [GitHub Issues](https://github.com/Fireworkshh/SMAPI-New-Android/issues) to report issues.
-
----
-
-Thank you for using SMAPI Android Loader. For any feedback or suggestions, feel free to contact us!
-
-### Additional Information
+### Information
 
 1. Download the game from Google and install it, then start.
 2. Disable system optimization in settings if the installation package cannot be extracted.
 3. Place Mods at `/storage/emulated/0/Android/data/app.SMAPIStardew/Mods`.
 4. For any questions, join our QQ group [985754557](http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=4guX1RqKVQE7nawKcsnOZ477ntb2nrY3&authKey=oTUbE%2BI4fVMghqGJ4rYwAjTzoJ4d2fI8ixDcsNF6S4NYOTkJ63iBrRGhZaB2XAkH&noverify=0&group_code=781588105).
+5. It takes a lot of time to be compatible with nexus mods, this is all caused by MonoMod, and it will not be updated again if this problem is not completely solved, I don't have this time to do this kind of mod compatible thing, there are other things to do
